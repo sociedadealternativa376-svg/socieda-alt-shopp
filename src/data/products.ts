@@ -20,7 +20,17 @@ import nariz26013_2 from '@/assets/products/nariz/na-26013-2.png';
 import nariz25013 from '@/assets/products/nariz/na-25013.png';
 import nariz24013 from '@/assets/products/nariz/na-24013.png';
 import nariz23020 from '@/assets/products/nariz/na-23020.png';
+import nariz23020_2 from '@/assets/products/nariz/na-23020-2.png';
 import nariz22013 from '@/assets/products/nariz/na-22013.png';
+import nariz21020 from '@/assets/products/nariz/na-21020.png';
+import nariz21020_2 from '@/assets/products/nariz/na-21020-2.png';
+import nariz20020 from '@/assets/products/nariz/na-20020.png';
+import nariz20020_2 from '@/assets/products/nariz/na-20020-2.png';
+import nariz19010 from '@/assets/products/nariz/na-19010.png';
+import nariz18010 from '@/assets/products/nariz/na-18010.png';
+import nariz17010 from '@/assets/products/nariz/na-17010.png';
+import nariz16010 from '@/assets/products/nariz/na-16010.png';
+import nariz15010 from '@/assets/products/nariz/na-15010.png';
 
 export interface ProductWithGallery extends Product {
   gallery: string[];
@@ -209,7 +219,7 @@ export const products: ProductWithGallery[] = [
     name: 'Piercing Nariz Flor Dourada',
     price: 34.90,
     image: nariz23020,
-    gallery: [nariz23020],
+    gallery: [nariz23020, nariz23020_2],
     category: 'joia',
     subcategory: 'nariz',
     description: 'Piercing nostril flor dourada com cristal em aço cirúrgico banhado a ouro',
@@ -224,6 +234,83 @@ export const products: ProductWithGallery[] = [
     category: 'joia',
     subcategory: 'nariz',
     description: 'Piercing nostril estrela com cristal central em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-21020',
+    name: 'Piercing Nariz Trio Cristais',
+    price: 32.90,
+    image: nariz21020,
+    gallery: [nariz21020, nariz21020_2],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril trio de cristais com bolinhas em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-20020',
+    name: 'Piercing Nariz Duplo Cristal',
+    price: 29.90,
+    image: nariz20020,
+    gallery: [nariz20020, nariz20020_2],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril duplo cristal elegante em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-19010',
+    name: 'Piercing Nariz Ponto Cristal 1,3mm',
+    price: 19.90,
+    image: nariz19010,
+    gallery: [nariz19010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril ponto de cristal 1,3mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-18010',
+    name: 'Piercing Nariz Cristal Rosa 1,2mm',
+    price: 19.90,
+    image: nariz18010,
+    gallery: [nariz18010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal rosa 1,2mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-17010',
+    name: 'Piercing Nariz Cristal Verde 1,2mm',
+    price: 19.90,
+    image: nariz17010,
+    gallery: [nariz17010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal verde 1,2mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-16010',
+    name: 'Piercing Nariz Bolinha Prata 1,2mm',
+    price: 17.90,
+    image: nariz16010,
+    gallery: [nariz16010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril bolinha prata clássica 1,2mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-15010',
+    name: 'Piercing Nariz Bolinha Mini',
+    price: 17.90,
+    image: nariz15010,
+    gallery: [nariz15010],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril bolinha mini discreta em aço cirúrgico',
     inStock: true,
   },
 ];
