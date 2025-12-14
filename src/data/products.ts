@@ -41,6 +41,16 @@ import nariz08016 from '@/assets/products/nariz/na-08016.png';
 import nariz08010 from '@/assets/products/nariz/na-08010.png';
 import nariz07016 from '@/assets/products/nariz/na-07016.png';
 import nariz07016_2 from '@/assets/products/nariz/na-07016-2.png';
+import nariz06016 from '@/assets/products/nariz/na-06016.png';
+import nariz06016_2 from '@/assets/products/nariz/na-06016-2.png';
+import nariz05016 from '@/assets/products/nariz/na-05016.png';
+import nariz05016_2 from '@/assets/products/nariz/na-05016-2.png';
+import nariz04016 from '@/assets/products/nariz/na-04016.png';
+import nariz04016_2 from '@/assets/products/nariz/na-04016-2.png';
+import nariz03013 from '@/assets/products/nariz/na-03013.png';
+import nariz03013_2 from '@/assets/products/nariz/na-03013-2.png';
+import nariz02010 from '@/assets/products/nariz/na-02010.png';
+import nariz02010_2 from '@/assets/products/nariz/na-02010-2.png';
 
 export interface ProductWithGallery extends Product {
   gallery: string[];
@@ -420,6 +430,61 @@ export const products: ProductWithGallery[] = [
     category: 'joia',
     subcategory: 'nariz',
     description: 'Piercing nostril flor de cristal grande em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-06016',
+    name: 'Piercing Nariz Cristal 2,2mm',
+    price: 24.90,
+    image: nariz06016,
+    gallery: [nariz06016, nariz06016_2],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal 2,2mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-05016',
+    name: 'Piercing Nariz Cristal 1,8mm',
+    price: 22.90,
+    image: nariz05016,
+    gallery: [nariz05016, nariz05016_2],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal 1,8mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-04016',
+    name: 'Piercing Nariz Cristal 1,6mm',
+    price: 22.90,
+    image: nariz04016,
+    gallery: [nariz04016, nariz04016_2],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal 1,6mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-03013',
+    name: 'Piercing Nariz Cristal Mini 1,2mm',
+    price: 19.90,
+    image: nariz03013,
+    gallery: [nariz03013, nariz03013_2],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril cristal mini 1,2mm em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'nariz-02010',
+    name: 'Piercing Nariz Bolinha Cristal 1,6mm',
+    price: 17.90,
+    image: nariz02010,
+    gallery: [nariz02010, nariz02010_2],
+    category: 'joia',
+    subcategory: 'nariz',
+    description: 'Piercing nostril bolinha com cristal 1,6mm em aço cirúrgico',
     inStock: true,
   },
 ];
