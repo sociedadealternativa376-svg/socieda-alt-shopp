@@ -73,7 +73,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-01010',
     name: 'Piercing Nariz Bolinha Mini 1,2mm',
-    price: 15.90,
+    price: 60.00,
     image: nariz01010,
     gallery: [nariz01010],
     category: 'joia',
@@ -84,7 +84,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-02010',
     name: 'Piercing Nariz Bolinha Cristal 1,6mm',
-    price: 17.90,
+    price: 60.00,
     image: nariz02010,
     gallery: [nariz02010, nariz02010_2],
     category: 'joia',
@@ -95,7 +95,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-03013',
     name: 'Piercing Nariz Cristal Mini 1,2mm',
-    price: 19.90,
+    price: 70.00,
     image: nariz03013,
     gallery: [nariz03013, nariz03013_2],
     category: 'joia',
@@ -106,7 +106,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-04016',
     name: 'Piercing Nariz Cristal 1,6mm',
-    price: 22.90,
+    price: 70.00,
     image: nariz04016,
     gallery: [nariz04016, nariz04016_2],
     category: 'joia',
@@ -117,7 +117,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-05016',
     name: 'Piercing Nariz Cristal 1,8mm',
-    price: 22.90,
+    price: 70.00,
     image: nariz05016,
     gallery: [nariz05016, nariz05016_2],
     category: 'joia',
@@ -128,7 +128,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-06016',
     name: 'Piercing Nariz Cristal 2,2mm',
-    price: 24.90,
+    price: 70.00,
     image: nariz06016,
     gallery: [nariz06016, nariz06016_2],
     category: 'joia',
@@ -139,7 +139,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-07016',
     name: 'Piercing Nariz Flor Cristal Grande',
-    price: 32.90,
+    price: 70.00,
     image: nariz07016,
     gallery: [nariz07016, nariz07016_2],
     category: 'joia',
@@ -150,7 +150,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-08010',
     name: 'Piercing Nariz Cristal Acqua',
-    price: 17.90,
+    price: 60.00,
     image: nariz08010,
     gallery: [nariz08010],
     category: 'joia',
@@ -161,7 +161,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-08016',
     name: 'Piercing Nariz Flor Cristal',
-    price: 29.90,
+    price: 70.00,
     image: nariz08016,
     gallery: [nariz08016],
     category: 'joia',
@@ -172,7 +172,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-09010',
     name: 'Piercing Nariz Cristal Azul Claro 1,2mm',
-    price: 17.90,
+    price: 60.00,
     image: nariz09010,
     gallery: [nariz09010],
     category: 'joia',
@@ -183,7 +183,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-10010',
     name: 'Piercing Nariz Cristal Azul 1,6mm',
-    price: 19.90,
+    price: 60.00,
     image: nariz10010,
     gallery: [nariz10010],
     category: 'joia',
@@ -194,7 +194,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-11010',
     name: 'Piercing Nariz Cristal Transparente 1,2mm',
-    price: 17.90,
+    price: 60.00,
     image: nariz11010,
     gallery: [nariz11010],
     category: 'joia',
@@ -205,7 +205,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-12010',
     name: 'Piercing Nariz Cristal Aurora 1,6mm',
-    price: 19.90,
+    price: 60.00,
     image: nariz12010,
     gallery: [nariz12010],
     category: 'joia',
@@ -216,7 +216,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-13010',
     name: 'Piercing Nariz Cristal Rosa Claro 1,2mm',
-    price: 19.90,
+    price: 60.00,
     image: nariz13010,
     gallery: [nariz13010],
     category: 'joia',
@@ -227,7 +227,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-14010',
     name: 'Piercing Nariz Cristal Lilás 1,6mm',
-    price: 19.90,
+    price: 60.00,
     image: nariz14010,
     gallery: [nariz14010],
     category: 'joia',
@@ -238,7 +238,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-15010',
     name: 'Piercing Nariz Bolinha Mini',
-    price: 17.90,
+    price: 60.00,
     image: nariz15010,
     gallery: [nariz15010],
     category: 'joia',
@@ -249,7 +249,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-16010',
     name: 'Piercing Nariz Bolinha Prata 1,2mm',
-    price: 17.90,
+    price: 60.00,
     image: nariz16010,
     gallery: [nariz16010],
     category: 'joia',
@@ -260,7 +260,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-17010',
     name: 'Piercing Nariz Cristal Verde 1,2mm',
-    price: 19.90,
+    price: 60.00,
     image: nariz17010,
     gallery: [nariz17010],
     category: 'joia',
@@ -271,7 +271,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-18010',
     name: 'Piercing Nariz Cristal Rosa 1,2mm',
-    price: 19.90,
+    price: 60.00,
     image: nariz18010,
     gallery: [nariz18010],
     category: 'joia',
@@ -282,7 +282,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-19010',
     name: 'Piercing Nariz Ponto Cristal 1,3mm',
-    price: 19.90,
+    price: 60.00,
     image: nariz19010,
     gallery: [nariz19010],
     category: 'joia',
@@ -293,7 +293,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-20020',
     name: 'Piercing Nariz Duplo Cristal',
-    price: 29.90,
+    price: 70.00,
     image: nariz20020,
     gallery: [nariz20020, nariz20020_2],
     category: 'joia',
@@ -304,7 +304,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-21020',
     name: 'Piercing Nariz Trio Cristais',
-    price: 32.90,
+    price: 70.00,
     image: nariz21020,
     gallery: [nariz21020, nariz21020_2],
     category: 'joia',
@@ -315,7 +315,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-22013',
     name: 'Piercing Nariz Estrela Cristal',
-    price: 29.90,
+    price: 70.00,
     image: nariz22013,
     gallery: [nariz22013],
     category: 'joia',
@@ -326,7 +326,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-23020',
     name: 'Piercing Nariz Flor Dourada',
-    price: 34.90,
+    price: 70.00,
     image: nariz23020,
     gallery: [nariz23020, nariz23020_2],
     category: 'joia',
@@ -337,7 +337,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-24013',
     name: 'Piercing Nariz Coração Cristal',
-    price: 29.90,
+    price: 70.00,
     image: nariz24013,
     gallery: [nariz24013],
     category: 'joia',
@@ -348,7 +348,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-25013',
     name: 'Piercing Nariz Coração Mini',
-    price: 22.90,
+    price: 70.00,
     image: nariz25013,
     gallery: [nariz25013],
     category: 'joia',
@@ -359,7 +359,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-26013',
     name: 'Piercing Nariz Estrela',
-    price: 24.90,
+    price: 70.00,
     image: nariz26013,
     gallery: [nariz26013, nariz26013_2],
     category: 'joia',
@@ -370,7 +370,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-27015',
     name: 'Piercing Nariz Lua',
-    price: 24.90,
+    price: 70.00,
     image: nariz27015,
     gallery: [nariz27015],
     category: 'joia',
@@ -381,7 +381,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-28020',
     name: 'Piercing Nariz Flor Bolinhas',
-    price: 32.90,
+    price: 70.00,
     image: nariz28020,
     gallery: [nariz28020],
     category: 'joia',
@@ -392,7 +392,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-29026',
     name: 'Piercing Nariz Coração Vazado Cristais',
-    price: 34.90,
+    price: 70.00,
     image: nariz29026,
     gallery: [nariz29026],
     category: 'joia',
@@ -403,7 +403,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-30028',
     name: 'Piercing Nariz Coração Cristais',
-    price: 39.90,
+    price: 70.00,
     image: nariz30028,
     gallery: [nariz30028],
     category: 'joia',
@@ -414,7 +414,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-31016',
     name: 'Piercing Nariz Borboleta Mini',
-    price: 26.90,
+    price: 70.00,
     image: nariz31016,
     gallery: [nariz31016],
     category: 'joia',
@@ -425,7 +425,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-32016',
     name: 'Piercing Nariz Borboleta',
-    price: 29.90,
+    price: 70.00,
     image: nariz32016,
     gallery: [nariz32016],
     category: 'joia',
@@ -436,7 +436,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-33016',
     name: 'Piercing Nariz Caveira',
-    price: 32.90,
+    price: 70.00,
     image: nariz33016,
     gallery: [nariz33016],
     category: 'joia',
@@ -447,7 +447,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-34010',
     name: 'Piercing Nariz Ponto Cristal',
-    price: 24.90,
+    price: 60.00,
     image: nariz34010,
     gallery: [nariz34010],
     category: 'joia',
@@ -458,7 +458,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-35012',
     name: 'Piercing Nariz Flor Vazada',
-    price: 27.90,
+    price: 70.00,
     image: nariz35012,
     gallery: [nariz35012],
     category: 'joia',
@@ -469,7 +469,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-36021',
     name: 'Piercing Nariz Cobra',
-    price: 34.90,
+    price: 70.00,
     image: nariz36021,
     gallery: [nariz36021, nariz36021_2],
     category: 'joia',
@@ -480,7 +480,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-37026',
     name: 'Piercing Nariz Flor Cristais',
-    price: 39.90,
+    price: 70.00,
     image: nariz37026,
     gallery: [nariz37026],
     category: 'joia',
@@ -491,7 +491,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-38010',
     name: 'Piercing Nariz Folha',
-    price: 29.90,
+    price: 60.00,
     image: nariz38010,
     gallery: [nariz38010],
     category: 'joia',
@@ -502,7 +502,7 @@ export const products: ProductWithGallery[] = [
   {
     id: 'nariz-40010',
     name: 'Piercing Nariz Coelho',
-    price: 29.90,
+    price: 60.00,
     image: nariz40010,
     gallery: [nariz40010],
     category: 'joia',
