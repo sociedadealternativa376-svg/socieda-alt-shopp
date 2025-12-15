@@ -64,6 +64,18 @@ import argola12021 from '@/assets/products/argola/ar-12021.png';
 import argola13015 from '@/assets/products/argola/ar-13015.png';
 import argola14015 from '@/assets/products/argola/ar-14015.png';
 
+// Novas argolas de nariz
+import narg02010 from '@/assets/products/nariz/narg-02010.png';
+import narg03010 from '@/assets/products/nariz/narg-03010.png';
+import narg03010_2 from '@/assets/products/nariz/narg-03010-2.png';
+import narg03010_3 from '@/assets/products/nariz/narg-03010-3.png';
+import narg04021 from '@/assets/products/nariz/narg-04021.png';
+import narg05012 from '@/assets/products/nariz/narg-05012.png';
+import narg06012 from '@/assets/products/nariz/narg-06012.png';
+import narg07019 from '@/assets/products/nariz/narg-07019.png';
+import narg08015 from '@/assets/products/nariz/narg-08015.png';
+import narg08015_2 from '@/assets/products/nariz/narg-08015-2.png';
+
 export interface ProductWithGallery extends Product {
   gallery: string[];
 }
@@ -587,6 +599,85 @@ export const products: ProductWithGallery[] = [
     category: 'joia',
     subcategory: 'argola',
     description: 'Argola ferradura média com bolinhas em aço cirúrgico prata e dourado',
+    inStock: true,
+  },
+  
+  // Novas Argolas de Nariz - Ordenadas do menor para o maior número
+  {
+    id: 'narg-02010',
+    name: 'Argola Nariz Lisa Simples',
+    price: 60.00,
+    image: narg02010,
+    gallery: [narg02010],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola nariz lisa simples em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'narg-03010',
+    name: 'Argola Nariz Lisa Colorida',
+    price: 60.00,
+    image: narg03010,
+    gallery: [narg03010, narg03010_2, narg03010_3],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola nariz lisa disponível em prata, dourado e preto em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'narg-04021',
+    name: 'Argola Nariz D Cristais',
+    price: 70.00,
+    image: narg04021,
+    gallery: [narg04021],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola nariz formato D com cristais em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'narg-05012',
+    name: 'Argola Nariz com Bolinha',
+    price: 60.00,
+    image: narg05012,
+    gallery: [narg05012],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola nariz clássica com bolinha em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'narg-06012',
+    name: 'Argola Nariz Lisa com Bolinha',
+    price: 60.00,
+    image: narg06012,
+    gallery: [narg06012],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola nariz lisa com bolinha delicada em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'narg-07019',
+    name: 'Argola Nariz Ferradura com Cristal',
+    price: 70.00,
+    image: narg07019,
+    gallery: [narg07019],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola nariz ferradura com cristal e bolinha em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'narg-08015',
+    name: 'Argola Nariz Trançada com Bolinha',
+    price: 70.00,
+    image: narg08015,
+    gallery: [narg08015, narg08015_2],
+    category: 'joia',
+    subcategory: 'argola',
+    description: 'Argola nariz trançada com bolinha disponível em dourado e prata em aço cirúrgico',
     inStock: true,
   },
 ];
