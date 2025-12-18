@@ -145,6 +145,12 @@ import rt37016 from '@/assets/products/tragus/rt-37016.png';
 import rt37021 from '@/assets/products/tragus/rt-37021.png';
 import rt37021_2 from '@/assets/products/tragus/rt-37021-2.png';
 import rt38016 from '@/assets/products/tragus/rt-38016.png';
+import rt38018 from '@/assets/products/tragus/rt-38018.png';
+import rt39018 from '@/assets/products/tragus/rt-39018.png';
+import rt31015 from '@/assets/products/tragus/rt-31015.png';
+import rt32018 from '@/assets/products/tragus/rt-32018.png';
+import rt32018_2 from '@/assets/products/tragus/rt-32018-2.png';
+import rt33018 from '@/assets/products/tragus/rt-33018.png';
 
 // Novas argolas de nariz adicionais
 import narg15023 from '@/assets/products/nariz/narg-15023.png';
@@ -1183,6 +1189,50 @@ export const products: ProductWithGallery[] = [
     category: 'joia',
     subcategory: 'orelha',
     description: 'Piercing orelha trio de borboletas com cristais em aço cirúrgico prata',
+    inStock: true,
+  },
+  {
+    id: 'rt-38018',
+    name: 'Piercing Orelha Asa Prata',
+    price: 70.00,
+    image: rt38018,
+    gallery: [rt38018, rt39018],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha asa de anjo em aço cirúrgico prata',
+    inStock: true,
+  },
+  {
+    id: 'rt-31015',
+    name: 'Piercing Orelha Golfinho Dourado',
+    price: 70.00,
+    image: rt31015,
+    gallery: [rt31015],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha golfinho em aço cirúrgico banhado a ouro',
+    inStock: true,
+  },
+  {
+    id: 'rt-32018',
+    name: 'Piercing Orelha Nossa Senhora',
+    price: 70.00,
+    image: rt32018,
+    gallery: [rt32018, rt32018_2],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha Nossa Senhora Aparecida com cristais azuis disponível em dourado e prata em aço cirúrgico',
+    inStock: true,
+  },
+  {
+    id: 'rt-33018',
+    name: 'Piercing Orelha Abelha Dourada',
+    price: 70.00,
+    image: rt33018,
+    gallery: [rt33018],
+    category: 'joia',
+    subcategory: 'orelha',
+    description: 'Piercing orelha abelha com cristal em aço cirúrgico banhado a ouro',
     inStock: true,
   },
 ];
