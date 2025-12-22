@@ -7,6 +7,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import Agendamento from "./pages/Agendamento";
+import Portfolio from "./pages/Portfolio";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
 import Auth from "./pages/Auth";
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/produto/:id" element={<ProductDetail />} />
             <Route path="/agendamento" element={<Agendamento />} />
+            <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/admin" element={<Admin />} />
