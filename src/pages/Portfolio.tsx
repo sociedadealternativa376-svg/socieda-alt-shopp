@@ -1,4 +1,3 @@
-import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
@@ -73,101 +72,99 @@ const artists: TattooArtist[] = [
 
 const Portfolio = () => {
   return (
-    <CartProvider>
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="pt-24 pb-16">
-          {/* Hero Section */}
-          <section className="container mx-auto px-4 mb-16">
-            <div className="text-center max-w-2xl mx-auto">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
-                Nossos Artistas
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Conheça os talentos por trás da Sociedade Alternativa. Cada artista traz sua visão única e especialidade para criar obras de arte inesquecíveis.
-              </p>
-            </div>
-          </section>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="pt-24 pb-16">
+        {/* Hero Section */}
+        <section className="container mx-auto px-4 mb-16">
+          <div className="text-center max-w-2xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              Nossos Artistas
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Conheça os talentos por trás da Sociedade Alternativa. Cada artista traz sua visão única e especialidade para criar obras de arte inesquecíveis.
+            </p>
+          </div>
+        </section>
 
-          {/* Artists Grid */}
-          <section className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {artists.map((artist) => (
-                <article 
-                  key={artist.id}
-                  className="group bg-card rounded-2xl overflow-hidden border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5"
-                >
-                  {/* Artist Image */}
-                  <div className="aspect-square overflow-hidden bg-muted">
-                    <img
-                      src={artist.image}
-                      alt={`Foto de ${artist.name}`}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-
-                  {/* Artist Info */}
-                  <div className="p-6">
-                    <h2 className="text-xl font-semibold text-foreground mb-1">
-                      {artist.name}
-                    </h2>
-                    <p className="text-sm text-primary font-medium mb-3">
-                      {artist.specialty}
-                    </p>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                      {artist.bio}
-                    </p>
-
-                    {/* Social Links */}
-                    <div className="flex items-center gap-3 pt-4 border-t border-border/50">
-                      {artist.instagram && (
-                        <a
-                          href={`https://instagram.com/${artist.instagram}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-                        >
-                          <Instagram className="h-4 w-4" />
-                          <span>@{artist.instagram}</span>
-                        </a>
-                      )}
-                      {artist.email && (
-                        <a
-                          href={`mailto:${artist.email}`}
-                          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors ml-auto"
-                        >
-                          <Mail className="h-4 w-4" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          {/* CTA Section */}
-          <section className="container mx-auto px-4 mt-16">
-            <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-8 md:p-12 text-center border border-primary/20">
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-4">
-                Pronto para sua próxima tattoo?
-              </h2>
-              <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
-                Agende uma consulta com um de nossos artistas e transforme sua ideia em realidade.
-              </p>
-              <a
-                href="/agendamento"
-                className="inline-flex items-center justify-center h-12 px-8 font-medium text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors"
+        {/* Artists Grid */}
+        <section className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {artists.map((artist) => (
+              <article 
+                key={artist.id}
+                className="group bg-card rounded-2xl overflow-hidden border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5"
               >
-                Agendar Consulta
-              </a>
-            </div>
-          </section>
-        </main>
-        <Footer />
-        <WhatsAppButton />
-      </div>
-    </CartProvider>
+                {/* Artist Image */}
+                <div className="aspect-square overflow-hidden bg-muted">
+                  <img
+                    src={artist.image}
+                    alt={`Foto de ${artist.name}`}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+
+                {/* Artist Info */}
+                <div className="p-6">
+                  <h2 className="text-xl font-semibold text-foreground mb-1">
+                    {artist.name}
+                  </h2>
+                  <p className="text-sm text-primary font-medium mb-3">
+                    {artist.specialty}
+                  </p>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                    {artist.bio}
+                  </p>
+
+                  {/* Social Links */}
+                  <div className="flex items-center gap-3 pt-4 border-t border-border/50">
+                    {artist.instagram && (
+                      <a
+                        href={`https://instagram.com/${artist.instagram}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        <Instagram className="h-4 w-4" />
+                        <span>@{artist.instagram}</span>
+                      </a>
+                    )}
+                    {artist.email && (
+                      <a
+                        href={`mailto:${artist.email}`}
+                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors ml-auto"
+                      >
+                        <Mail className="h-4 w-4" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="container mx-auto px-4 mt-16">
+          <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-8 md:p-12 text-center border border-primary/20">
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-4">
+              Pronto para sua próxima tattoo?
+            </h2>
+            <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
+              Agende uma consulta com um de nossos artistas e transforme sua ideia em realidade.
+            </p>
+            <a
+              href="/agendamento"
+              className="inline-flex items-center justify-center h-12 px-8 font-medium text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              Agendar Consulta
+            </a>
+          </div>
+        </section>
+      </main>
+      <Footer />
+      <WhatsAppButton />
+    </div>
   );
 };
 
