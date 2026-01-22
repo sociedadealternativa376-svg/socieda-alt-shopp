@@ -189,4 +189,13 @@
     0%, 100% { box-shadow: 0 0 20px hsl(25 95% 53% / 0.3); }
     50% { box-shadow: 0 0 40px hsl(25 95% 53% / 0.5); }
   }
+
+  /* Hide scrollbar for carousels */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
