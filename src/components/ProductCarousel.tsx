@@ -109,7 +109,7 @@ const ProductCarousel = ({ title, products, onViewAll }: ProductCarouselProps) =
         {products.map((product, index) => (
           <div 
             key={product.id} 
-            className="flex-shrink-0 w-[140px] md:w-[180px] lg:w-[200px] animate-fade-in"
+            className="flex-shrink-0 w-[calc(33.333%-8px)] min-w-[160px] max-w-[220px] animate-fade-in"
             style={{ animationDelay: `${index * 0.05}s` }}
           >
             <ProductCardCompact product={product} />
