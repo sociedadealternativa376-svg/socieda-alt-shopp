@@ -1,7 +1,8 @@
-import { Menu, X, User, LogOut, Loader2, MessageCircle } from 'lucide-react';
+import { Menu, X, User, LogOut, Loader2, MessageCircle, ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
 import logo from '@/assets/logo.png';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,12 +12,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import ThemeToggle from './ThemeToggle';
+import Cart from './Cart';
 import { toast } from 'sonner';
 
 const Header = () => {
   const { user, loading, signOut } = useAuth();
+  const { itemCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -87,6 +98,26 @@ const Header = () => {
           {/* Theme Toggle, User Menu, Cart & Mobile Menu */}
           <div className="flex items-center gap-2 md:gap-3">
             <ThemeToggle />
+
+            {/* Cart Button */}
+            <Sheet open={cartOpen} onOpenChange={setCartOpen}>
+              <SheetTrigger asChild>
+                <button className="relative p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors">
+                  <ShoppingBag className="h-5 w-5" />
+                  {itemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center animate-pulse">
+                      {itemCount > 9 ? '9+' : itemCount}
+                    </span>
+                  )}
+                </button>
+              </SheetTrigger>
+              <SheetContent className="w-full sm:max-w-md">
+                <SheetHeader>
+                  <SheetTitle className="sr-only">Carrinho</SheetTitle>
+                </SheetHeader>
+                <Cart />
+              </SheetContent>
+            </Sheet>
 
             {/* User Menu */}
             {loading ? (
