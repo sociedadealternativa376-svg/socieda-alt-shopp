@@ -1,13 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Copy, Check, Clock, QrCode, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Copy, Check, Clock, QrCode, AlertCircle, ArrowLeft, CreditCard, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
+import { useMercadoPago } from '@/hooks/useMercadoPago';
 import { CartItem } from '@/types/product';
 
 interface OrderData {
@@ -20,6 +22,7 @@ const PixCheckout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
+  const { isLoaded: mpLoaded, isLoading: mpLoading, error: mpError, publicKey } = useMercadoPago();
   
   const orderData = location.state as OrderData | null;
   
@@ -27,9 +30,22 @@ const PixCheckout = () => {
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [status, setStatus] = useState<'pending' | 'paid' | 'expired'>('pending');
+  const [paymentMethod, setPaymentMethod] = useState<'pix' | 'card'>('pix');
 
   // Mock Pix code - in production this would come from API
   const pixCode = '00020126580014br.gov.bcb.pix0136a629534e-7693-4846-b028-example5204000053039865802BR5925LOJA EXEMPLO LTDA6009SAO PAULO62070503***6304ABCD';
+
+  // Log Mercado Pago SDK status
+  useEffect(() => {
+    if (mpLoaded) {
+      console.log('✅ Mercado Pago SDK pronto para uso');
+      console.log('🔑 Public Key:', publicKey.substring(0, 25) + '...');
+      console.log('💳 Métodos habilitados: Pix, Cartão de Crédito (com parcelas)');
+    }
+    if (mpError) {
+      console.error('❌ Erro no Mercado Pago:', mpError);
+    }
+  }, [mpLoaded, mpError, publicKey]);
 
   // Redirect if not logged in
   useEffect(() => {
@@ -210,6 +226,26 @@ const PixCheckout = () => {
             {statusConfig.label}
           </div>
 
+          {/* SDK Status Indicator */}
+          {mpLoading && (
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Carregando SDK Mercado Pago...
+            </div>
+          )}
+          {mpLoaded && (
+            <div className="flex items-center justify-center gap-2 text-xs text-green-600 dark:text-green-400">
+              <Check className="h-3 w-3" />
+              Mercado Pago pronto
+            </div>
+          )}
+          {mpError && (
+            <div className="flex items-center justify-center gap-2 text-xs text-destructive">
+              <AlertCircle className="h-3 w-3" />
+              Erro ao carregar Mercado Pago
+            </div>
+          )}
+
           {/* Order Summary */}
           <div className="bg-secondary/30 rounded-lg p-3 space-y-2">
             <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
@@ -237,101 +273,160 @@ const PixCheckout = () => {
             </p>
           </div>
 
-          {/* QR Code */}
-          <div className="flex justify-center">
-            {isLoading ? (
-              <Skeleton className="w-56 h-56 rounded-xl" />
-            ) : (
-              <div className="relative p-4 bg-white rounded-xl shadow-inner border border-border/30">
-                <div className="w-48 h-48 flex flex-col items-center justify-center gap-3 text-muted-foreground">
-                  <QrCode className="w-24 h-24 opacity-30" />
-                  <span className="text-xs text-center">
-                    QR Code será exibido aqui
-                  </span>
-                </div>
-                {status === 'expired' && (
-                  <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                    <p className="text-destructive font-medium">Expirado</p>
+          {/* Payment Method Tabs */}
+          <Tabs value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as 'pix' | 'card')} className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="pix" className="gap-2">
+                <QrCode className="h-4 w-4" />
+                Pix
+              </TabsTrigger>
+              <TabsTrigger value="card" className="gap-2">
+                <CreditCard className="h-4 w-4" />
+                Cartão
+              </TabsTrigger>
+            </TabsList>
+
+            {/* Pix Payment Tab */}
+            <TabsContent value="pix" className="space-y-4 mt-4">
+              {/* QR Code */}
+              <div className="flex justify-center">
+                {isLoading ? (
+                  <Skeleton className="w-56 h-56 rounded-xl" />
+                ) : (
+                  <div className="relative p-4 bg-white rounded-xl shadow-inner border border-border/30">
+                    <div className="w-48 h-48 flex flex-col items-center justify-center gap-3 text-muted-foreground">
+                      <QrCode className="w-24 h-24 opacity-30" />
+                      <span className="text-xs text-center">
+                        QR Code será exibido aqui
+                      </span>
+                    </div>
+                    {status === 'expired' && (
+                      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                        <p className="text-destructive font-medium">Expirado</p>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
-            )}
-          </div>
 
-          {/* Timer with Progress */}
-          {status === 'pending' && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Tempo restante</span>
-                <span className={cn(
-                  "font-mono font-bold",
-                  timeLeft <= 60 ? "text-destructive" : "text-foreground"
-                )}>
-                  {formatTime(timeLeft)}
-                </span>
-              </div>
-              <Progress 
-                value={progressPercentage} 
-                className={cn(
-                  "h-2 transition-all",
-                  timeLeft <= 60 && "[&>div]:bg-destructive"
-                )}
-              />
-            </div>
-          )}
-
-          {/* Pix Copy & Paste */}
-          <div className="space-y-3">
-            <label className="text-sm font-medium text-foreground">
-              Pix Copia e Cola
-            </label>
-            {isLoading ? (
-              <Skeleton className="h-20 w-full rounded-lg" />
-            ) : (
-              <div className="relative">
-                <div className="p-3 bg-secondary/50 rounded-lg border border-border/50 text-xs font-mono text-muted-foreground break-all max-h-20 overflow-y-auto">
-                  {pixCode}
+              {/* Timer with Progress */}
+              {status === 'pending' && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Tempo restante</span>
+                    <span className={cn(
+                      "font-mono font-bold",
+                      timeLeft <= 60 ? "text-destructive" : "text-foreground"
+                    )}>
+                      {formatTime(timeLeft)}
+                    </span>
+                  </div>
+                  <Progress 
+                    value={progressPercentage} 
+                    className={cn(
+                      "h-2 transition-all",
+                      timeLeft <= 60 && "[&>div]:bg-destructive"
+                    )}
+                  />
                 </div>
-              </div>
-            )}
-            <Button
-              onClick={handleCopyCode}
-              disabled={isLoading || status === 'expired'}
-              className={cn(
-                "w-full h-12 text-base font-medium transition-all",
-                copied 
-                  ? "bg-green-600 hover:bg-green-600 text-white" 
-                  : "bg-primary hover:bg-primary/90"
               )}
-            >
-              {copied ? (
-                <>
-                  <Check className="h-5 w-5 mr-2" />
-                  Código copiado!
-                </>
-              ) : (
-                <>
-                  <Copy className="h-5 w-5 mr-2" />
-                  Copiar código
-                </>
-              )}
-            </Button>
-          </div>
 
-          {/* Already Paid Button */}
-          <Button
-            variant="outline"
-            disabled={status !== 'pending'}
-            onClick={handleConfirmPayment}
-            className="w-full h-12 text-base border-2"
-          >
-            Já paguei
-          </Button>
+              {/* Pix Copy & Paste */}
+              <div className="space-y-3">
+                <label className="text-sm font-medium text-foreground">
+                  Pix Copia e Cola
+                </label>
+                {isLoading ? (
+                  <Skeleton className="h-20 w-full rounded-lg" />
+                ) : (
+                  <div className="relative">
+                    <div className="p-3 bg-secondary/50 rounded-lg border border-border/50 text-xs font-mono text-muted-foreground break-all max-h-20 overflow-y-auto">
+                      {pixCode}
+                    </div>
+                  </div>
+                )}
+                <Button
+                  onClick={handleCopyCode}
+                  disabled={isLoading || status === 'expired'}
+                  className={cn(
+                    "w-full h-12 text-base font-medium transition-all",
+                    copied 
+                      ? "bg-green-600 hover:bg-green-600 text-white" 
+                      : "bg-primary hover:bg-primary/90"
+                  )}
+                >
+                  {copied ? (
+                    <>
+                      <Check className="h-5 w-5 mr-2" />
+                      Código copiado!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-5 w-5 mr-2" />
+                      Copiar código
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {/* Already Paid Button */}
+              <Button
+                variant="outline"
+                disabled={status !== 'pending'}
+                onClick={handleConfirmPayment}
+                className="w-full h-12 text-base border-2"
+              >
+                Já paguei
+              </Button>
+            </TabsContent>
+
+            {/* Credit Card Payment Tab */}
+            <TabsContent value="card" className="space-y-4 mt-4">
+              <div className="bg-secondary/30 rounded-lg p-6 space-y-4">
+                <div className="text-center">
+                  <CreditCard className="h-12 w-12 mx-auto mb-3 text-muted-foreground" />
+                  <h3 className="font-medium text-foreground mb-1">
+                    Pagamento com Cartão
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Pague em até 12x no cartão de crédito
+                  </p>
+                </div>
+
+                {mpLoaded ? (
+                  <div className="space-y-3">
+                    <p className="text-xs text-center text-green-600 dark:text-green-400">
+                      ✅ SDK Mercado Pago carregado
+                    </p>
+                    <p className="text-xs text-center text-muted-foreground">
+                      Formulário de cartão será implementado com o backend
+                    </p>
+                    <Button
+                      disabled
+                      className="w-full h-12 text-base"
+                    >
+                      <CreditCard className="h-5 w-5 mr-2" />
+                      Em breve
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center gap-2 py-4">
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <span className="text-sm text-muted-foreground">
+                      Carregando...
+                    </span>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
 
           {/* Instructions */}
           <div className="pt-4 border-t border-border/50">
             <p className="text-xs text-muted-foreground text-center leading-relaxed">
-              Abra o app do seu banco, escolha pagar com Pix e escaneie o QR Code ou cole o código acima.
+              {paymentMethod === 'pix' 
+                ? 'Abra o app do seu banco, escolha pagar com Pix e escaneie o QR Code ou cole o código acima.'
+                : 'Pague com segurança usando seu cartão de crédito em até 12x.'}
             </p>
           </div>
         </CardContent>
