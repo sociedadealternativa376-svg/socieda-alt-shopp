@@ -1,16 +1,11 @@
 import { useParams, useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import { ShoppingBag, Shield, Truck, RotateCcw } from 'lucide-react';
-=======
-import { ShoppingCart, MessageCircle, Shield, Truck, RotateCcw } from 'lucide-react';
->>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
+import { ShoppingBag, MessageCircle, Shield, Truck, RotateCcw } from 'lucide-react';
 import { products } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { useState, useEffect } from 'react';
-import { useCart } from '@/context/CartContext';
 
 const getProductGalleryImages = (product: (typeof products)[number]) => {
   const gallery = (product as any).gallery as string[] | undefined;
@@ -57,6 +52,13 @@ const ProductDetail = () => {
     navigate('/checkout');
   };
 
+  const handleWhatsAppOrder = () => {
+    const message = encodeURIComponent(
+      `Olá! Gostaria de saber mais sobre o produto:\n\n*${product.name}*\nCódigo: ${product.id.toUpperCase()}\nPreço: R$ ${product.price.toFixed(2)}\n\nPor favor, me envie mais informações!`
+    );
+    window.open(`https://wa.me/5511952222008?text=${message}`, '_blank');
+  };
+
   const relatedProducts = products
     .filter(p => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
@@ -78,9 +80,11 @@ const ProductDetail = () => {
             {/* Image Gallery */}
             <div className="space-y-4">
                 <div className="rounded-lg overflow-hidden bg-card gradient-border max-h-96">
-                  <img 
-                    src={productImages[selectedImage]} 
+                  <img
+                    src={productImages[selectedImage]}
                     alt={product.name}
+                    loading="eager"
+                    decoding="async"
                     className="w-full max-h-96 object-contain"
                   />
                 </div>
@@ -95,9 +99,11 @@ const ProductDetail = () => {
                         : 'border-border hover:border-primary/50'
                     }`}
                   >
-                    <img 
-                      src={img} 
+                    <img
+                      src={img}
                       alt={`${product.name} - ${index + 1}`}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   </button>
@@ -140,35 +146,24 @@ const ProductDetail = () => {
                 </div>
               </div>
 
-<<<<<<< HEAD
-              {/* Action Button */}
-              <button 
-                onClick={handleAddToCart}
-                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red hover:opacity-90 text-white font-display text-lg tracking-wider transition-all hover:scale-[1.02] hover:shadow-lg animate-pulse-glow"
-              >
-                <ShoppingBag className="h-6 w-6" />
-                ADICIONAR AO CARRINHO
-              </button>
-=======
               {/* Action Buttons */}
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <button 
                   onClick={handleBuy}
-                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-display text-lg tracking-wider transition-all hover:scale-[1.02]"
+                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red hover:opacity-90 text-white font-display text-lg tracking-wider transition-all hover:scale-[1.02] hover:shadow-lg animate-pulse-glow"
                 >
-                  <ShoppingCart className="h-6 w-6" />
+                  <ShoppingBag className="h-6 w-6" />
                   COMPRAR AGORA
                 </button>
                 <button 
                   onClick={handleWhatsAppOrder}
-                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-display text-lg tracking-wider transition-all hover:scale-[1.02]"
+                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-display text-lg tracking-wider transition-all hover:scale-[1.02] border border-border"
                   title="Fale conosco no WhatsApp para dúvidas"
                 >
                   <MessageCircle className="h-6 w-6" />
                   CONVERSAR
                 </button>
               </div>
->>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
 
               {/* Stock Status */}
               <div className="flex items-center gap-2">
@@ -225,9 +220,11 @@ const ProductDetail = () => {
                     className="group bg-card rounded-lg overflow-hidden hover-glow gradient-border text-left"
                   >
                     <div className="h-28 lg:h-24 overflow-hidden">
-                      <img 
-                        src={relatedProduct.image} 
+                      <img
+                        src={relatedProduct.image}
                         alt={relatedProduct.name}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                     </div>

@@ -4,7 +4,6 @@ import { ArrowDown, Sparkles } from 'lucide-react';
 const Hero = () => {
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-16 md:pt-0">
-<<<<<<< HEAD
       {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
       
@@ -13,14 +12,9 @@ const Hero = () => {
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,hsl(var(--warm-yellow)/0.15)_0%,transparent_50%)]" />
         <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_right,hsl(var(--warm-red)/0.15)_0%,transparent_50%)]" />
       </div>
-=======
-      {/* Background - dark */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-neutral-900/80 to-black/95" />
->>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
       
-      {/* Animated Background Elements (neutralized) */}
+      {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-<<<<<<< HEAD
         <div className="absolute top-1/4 left-1/4 w-48 md:w-[500px] h-48 md:h-[500px] bg-primary/5 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-1/4 right-1/4 w-40 md:w-[400px] h-40 md:h-[400px] bg-warm-red/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '-1.5s' }} />
         <div className="absolute top-1/2 right-1/3 w-32 md:w-[300px] h-32 md:h-[300px] bg-warm-yellow/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
@@ -29,17 +23,11 @@ const Hero = () => {
         <div className="hidden md:block absolute top-20 right-20 w-2 h-2 rounded-full bg-primary/40 animate-pulse" />
         <div className="hidden md:block absolute top-40 right-40 w-1 h-1 rounded-full bg-warm-yellow/60 animate-pulse" style={{ animationDelay: '0.5s' }} />
         <div className="hidden md:block absolute bottom-40 left-20 w-1.5 h-1.5 rounded-full bg-warm-red/50 animate-pulse" style={{ animationDelay: '1s' }} />
-=======
-        <div className="absolute top-1/4 left-1/4 w-48 md:w-96 h-48 md:h-96 bg-black/30 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-40 md:w-80 h-40 md:h-80 bg-neutral-800/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '-1.5s' }} />
-        <div className="absolute top-1/2 right-1/3 w-32 md:w-64 h-32 md:h-64 bg-neutral-700/25 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
->>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center">
         {/* Logo with glow ring */}
         <div className="mb-6 md:mb-8 flex justify-center">
-<<<<<<< HEAD
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-warm-yellow via-primary to-warm-red rounded-full blur-2xl opacity-40 animate-pulse-glow scale-110" />
             <img 
@@ -53,23 +41,10 @@ const Hero = () => {
         {/* Title with animated gradient */}
         <h1 className="text-4xl md:text-7xl lg:text-8xl font-display tracking-wider mb-4 md:mb-6 animate-slide-up">
           <span className="text-gradient-animate">SOCIEDADE</span>
-=======
-          <img 
-            src={logo} 
-            alt="Sociedade Alternativa" 
-            className="w-16 h-16 md:w-28 md:h-28 object-contain rounded-full border-2 border-black/40 shadow-lg"
-          />
-        </div>
-
-        {/* Title */}
-        <h1 className="text-4xl md:text-7xl lg:text-8xl font-display tracking-wider mb-4 md:mb-6 text-white">
-          <span className="text-neutral-300">SOCIEDADE</span>
->>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
           <br />
           <span className="text-white">ALTERNATIVA</span>
         </h1>
 
-<<<<<<< HEAD
         {/* Subtitle with sparkle */}
         <div className="flex items-center justify-center gap-2 mb-6 md:mb-8 animate-slide-up stagger-1">
           <Sparkles className="w-4 h-4 text-primary animate-pulse" />
@@ -78,12 +53,6 @@ const Hero = () => {
           </p>
           <Sparkles className="w-4 h-4 text-primary animate-pulse" />
         </div>
-=======
-        {/* Subtitle */}
-        <p className="text-base md:text-2xl text-muted-foreground/80 mb-6 md:mb-8 tracking-widest">
-          PIERCINGS • TATTOOS • JOIAS
-        </p>
->>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
 
         {/* Description */}
         <p className="max-w-2xl mx-auto text-foreground/80 text-sm md:text-lg mb-8 md:mb-12 px-4 animate-slide-up stagger-2">
@@ -91,36 +60,22 @@ const Hero = () => {
           e tatuagens que contam sua história.
         </p>
 
-<<<<<<< HEAD
         {/* CTA Button with premium effect */}
         <a 
           href="#produtos"
           className="btn-gradient btn-ripple inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 rounded-full text-primary-foreground font-display text-lg md:text-xl tracking-wider animate-slide-up stagger-3"
-=======
-        {/* CTA Button */}
-        <a
-          href="#produtos"
-          className="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 rounded-full bg-black/90 text-white font-display text-lg md:text-xl tracking-wider transition-all hover:opacity-95 hover:scale-102 active:scale-95 shadow-lg"
->>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
         >
           VER PRODUTOS
           <ArrowDown className="h-5 w-5 animate-bounce-subtle" />
         </a>
       </div>
 
-<<<<<<< HEAD
       {/* Scroll Indicator - Premium style */}
       <div className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground animate-fade-in">
         <span className="text-xs tracking-[0.3em] uppercase">Role para explorar</span>
         <div className="w-6 h-10 rounded-full border-2 border-primary/30 flex justify-center pt-2">
           <div className="w-1 h-2 rounded-full bg-primary animate-bounce" />
         </div>
-=======
-      {/* Scroll Indicator - Hidden on mobile */}
-        <div className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground">
-        <span className="text-sm tracking-widest">SCROLL</span>
-        <div className="w-px h-12 bg-gradient-to-b from-neutral-500 to-transparent" />
->>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
       </div>
     </section>
   );

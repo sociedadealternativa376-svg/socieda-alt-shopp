@@ -50,8 +50,8 @@ const Checkout = () => {
   const [cardErrors, setCardErrors] = useState<FormErrors>({});
   const [mpLoaded, setMpLoaded] = useState(false);
   const MP_PUBLIC_KEY = import.meta.env.VITE_MP_PUBLIC_KEY || '';
-  // DEBUG: force backend during troubleshooting
-  const API_BASE = 'http://localhost:3000';
+  // API Base URL - usa variável de ambiente ou fallback para localhost
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
   const [installments, setInstallments] = useState<any[]>([]);
   const [selectedInstallment, setSelectedInstallment] = useState<any>(null);
 
@@ -106,43 +106,77 @@ const Checkout = () => {
 
   // Handle Pix button: use Checkout Pro preference (opens Mercado Pago checkout)
   const handlePixPayment = async () => {
-    // For Pix we call backend /api/create-pix which creates a PIX payment
-    // and returns point_of_interaction with QR code data.
+    // Validação dos dados do cliente
+    if (!customerData.email || !customerData.name || !customerData.phone) {
+      setError('Por favor, preencha todos os dados de entrega antes de gerar o PIX')
+      return
+    }
+
     setIsProcessing(true)
     setError('')
+    
     try {
       const resp = await fetch(`${API_BASE}/api/create-pix`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           amount: total,
-          description: 'Pagamento via PIX - compra web',
-          payer: customerData
+          description: `Pagamento via PIX - ${items.length} item(ns)`,
+          payer: {
+            email: customerData.email,
+            name: customerData.name,
+            phone: customerData.phone
+          }
         })
       })
 
+      // Verificar se a resposta foi recebida
+      if (!resp.ok) {
+        // Tentar parsear erro do servidor
+        try {
+          const errorData = await resp.json()
+          throw new Error(errorData.error || errorData.message || `Erro do servidor: ${resp.status}`)
+        } catch (parseError) {
+          if (resp.status === 0 || resp.status >= 500) {
+            throw new Error('Servidor não está respondendo. Verifique se o backend está rodando na porta 3000.')
+          }
+          throw new Error(`Erro ao conectar com o servidor: ${resp.statusText}`)
+        }
+      }
+
       const data = await resp.json()
-      if (resp.ok && data.success) {
+      
+      if (data.success) {
         // Extract QR code data from backend response
         const qrCodeData = data.point_of_interaction?.transaction_data
+        
         if (qrCodeData) {
           // Map backend response to frontend state format
           setPixData({
             qr_code_base64: qrCodeData.qr_code_base64,
-            qr_copy_text: qrCodeData.qr_code,
+            qr_copy_text: qrCodeData.qr_code || qrCodeData.qr_code_text,
             id: data.id,
             status: data.status,
             ticket_url: qrCodeData.ticket_url
           })
+          setError('') // Limpar erros anteriores
         } else {
-          setError('QR Code não disponível na resposta')
+          setError('QR Code não disponível na resposta do servidor')
         }
       } else {
         setError(data.error || data.message || 'Erro ao criar pagamento PIX')
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Erro ao criar PIX:', err)
-      setError('Erro ao criar pagamento PIX')
+      
+      // Mensagens de erro mais específicas
+      if (err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError')) {
+        setError('Não foi possível conectar ao servidor. Verifique se o backend está rodando em http://localhost:3000')
+      } else if (err.message) {
+        setError(err.message)
+      } else {
+        setError('Erro ao criar pagamento PIX. Tente novamente.')
+      }
     } finally {
       setIsProcessing(false)
     }
@@ -402,13 +436,13 @@ const Checkout = () => {
       <Header />
       <main className="flex-1 pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
-          <h1 className="text-3xl md:text-4xl font-display gradient-text mb-8">FINALIZAR COMPRA</h1>
+          <h1 className="text-3xl md:text-4xl font-display font-bold mb-8 text-foreground">Finalizar Compra</h1>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Coluna esquerda: Resumo do pedido */}
             <div className="lg:col-span-1 order-2 lg:order-1">
-              <div className="bg-card rounded-lg border border-border p-6 sticky top-24">
-                <h2 className="font-display text-xl mb-6">RESUMO DO PEDIDO</h2>
+              <div className="bg-card rounded-lg border border-border/50 p-6 sticky top-24 shadow-sm">
+                <h2 className="font-semibold text-lg mb-6 text-foreground">Resumo do Pedido</h2>
 
                 {/* Itens */}
                 <div className="space-y-4 mb-6 pb-6 border-b border-border max-h-96 overflow-y-auto">
@@ -447,8 +481,8 @@ const Checkout = () => {
                     <span className="text-muted-foreground">A cobrar</span>
                   </div>
                   <div className="flex justify-between text-lg font-bold pt-3 border-t border-border">
-                    <span>Total:</span>
-                    <span className="gradient-text">R$ {total.toFixed(2)}</span>
+                    <span className="text-foreground">Total:</span>
+                    <span className="text-foreground">R$ {total.toFixed(2)}</span>
                   </div>
                 </div>
 
@@ -463,8 +497,8 @@ const Checkout = () => {
             {/* Coluna direita: Formulário de pagamento */}
             <div className="lg:col-span-2 order-1 lg:order-2">
               {/* Dados do cliente */}
-              <div className="bg-card rounded-lg border border-border p-6 mb-6">
-                <h2 className="font-display text-lg mb-4">DADOS DE ENTREGA</h2>
+              <div className="bg-card rounded-lg border border-border/50 p-6 mb-6 shadow-sm">
+                <h2 className="font-semibold text-lg mb-4 text-foreground">Dados de Entrega</h2>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">Email</label>
@@ -473,7 +507,7 @@ const Checkout = () => {
                       value={customerData.email}
                       onChange={(e) => setCustomerData({ ...customerData, email: e.target.value })}
                       placeholder="seu@email.com"
-                      className="w-full px-4 py-2 rounded-md bg-background border border-border focus:border-primary focus:outline-none text-sm"
+                      className="w-full px-4 py-2.5 rounded-md bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm transition-all"
                     />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -484,7 +518,7 @@ const Checkout = () => {
                         value={customerData.name}
                         onChange={(e) => setCustomerData({ ...customerData, name: e.target.value })}
                         placeholder="Seu nome"
-                        className="w-full px-4 py-2 rounded-md bg-background border border-border focus:border-primary focus:outline-none text-sm"
+                        className="w-full px-4 py-2.5 rounded-md bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm transition-all"
                       />
                     </div>
                     <div>
@@ -494,7 +528,7 @@ const Checkout = () => {
                         value={customerData.phone}
                         onChange={(e) => setCustomerData({ ...customerData, phone: e.target.value })}
                         placeholder="(11) 99999-9999"
-                        className="w-full px-4 py-2 rounded-md bg-background border border-border focus:border-primary focus:outline-none text-sm"
+                        className="w-full px-4 py-2.5 rounded-md bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm transition-all"
                       />
                     </div>
                   </div>
@@ -502,8 +536,8 @@ const Checkout = () => {
               </div>
 
               {/* Métodos de pagamento - Abas */}
-              <div className="bg-card rounded-lg border border-border p-6 mb-6">
-                <h2 className="font-display text-lg mb-4">MÉTODO DE PAGAMENTO</h2>
+              <div className="bg-card rounded-lg border border-border/50 p-6 mb-6 shadow-sm">
+                <h2 className="font-semibold text-lg mb-4 text-foreground">Método de Pagamento</h2>
 
                 {/* Abas */}
                 <div className="flex gap-4 mb-6 border-b border-border">
@@ -513,7 +547,7 @@ const Checkout = () => {
                       setError('');
                       setPixData(null);
                     }}
-                    className={`pb-3 font-medium text-sm px-2 border-b-2 transition-colors ${
+                    className={`pb-3 font-medium text-sm px-2 border-b-2 transition-all ${
                       paymentMethod === 'card'
                         ? 'border-primary text-primary'
                         : 'border-transparent text-muted-foreground hover:text-foreground'
@@ -526,7 +560,7 @@ const Checkout = () => {
                       setPaymentMethod('pix');
                       setError('');
                     }}
-                    className={`pb-3 font-medium text-sm px-2 border-b-2 transition-colors ${
+                    className={`pb-3 font-medium text-sm px-2 border-b-2 transition-all ${
                       paymentMethod === 'pix'
                         ? 'border-primary text-primary'
                         : 'border-transparent text-muted-foreground hover:text-foreground'
@@ -570,8 +604,8 @@ const Checkout = () => {
                         onBlur={fetchInstallments}
                         placeholder="0000 0000 0000 0000"
                         maxLength={19}
-                        className={`w-full px-4 py-2 rounded-md bg-background border text-lg tracking-wider focus:outline-none ${
-                          cardErrors.cardNumber ? 'border-destructive focus:border-destructive' : 'border-border focus:border-primary'
+                        className={`w-full px-4 py-2.5 rounded-md bg-background border text-lg tracking-wider focus:outline-none focus:ring-2 transition-all ${
+                          cardErrors.cardNumber ? 'border-destructive focus:border-destructive focus:ring-destructive/20' : 'border-border focus:border-primary focus:ring-primary/20'
                         }`}
                       />
                       {cardErrors.cardNumber && (
@@ -592,8 +626,8 @@ const Checkout = () => {
                           }
                         }}
                         placeholder="NOME SOBRENOME"
-                        className={`w-full px-4 py-2 rounded-md bg-background border text-sm uppercase focus:outline-none ${
-                          cardErrors.cardholderName ? 'border-destructive focus:border-destructive' : 'border-border focus:border-primary'
+                        className={`w-full px-4 py-2.5 rounded-md bg-background border text-sm uppercase focus:outline-none focus:ring-2 transition-all ${
+                          cardErrors.cardholderName ? 'border-destructive focus:border-destructive focus:ring-destructive/20' : 'border-border focus:border-primary focus:ring-primary/20'
                         }`}
                       />
                       {cardErrors.cardholderName && (
@@ -661,7 +695,7 @@ const Checkout = () => {
                             );
                             setSelectedInstallment(selected);
                           }}
-                          className="w-full px-4 py-2 rounded-md bg-background border border-border focus:border-primary focus:outline-none text-sm"
+                          className="w-full px-4 py-2.5 rounded-md bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm transition-all"
                         >
                           {installments.map((inst, idx) => (
                             <option key={idx} value={inst.recommended_message}>
@@ -676,7 +710,7 @@ const Checkout = () => {
                     <button
                       type="submit"
                       disabled={isProcessing || success}
-                      className="w-full py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-display text-lg rounded-md transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                      className="w-full py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
                     >
                       {isProcessing && <Loader2 className="h-5 w-5 animate-spin" />}
                       {isProcessing ? 'Processando...' : `Pagar R$ ${total.toFixed(2)}`}
@@ -694,7 +728,7 @@ const Checkout = () => {
                         <button
                           onClick={handlePixPayment}
                           disabled={isProcessing}
-                          className="w-full py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-display text-lg rounded-md transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                          className="w-full py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
                         >
                           {isProcessing && <Loader2 className="h-5 w-5 animate-spin" />}
                           {isProcessing ? 'Gerando...' : '🎯 Gerar Código Pix'}

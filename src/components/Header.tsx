@@ -47,7 +47,6 @@ const Header = () => {
   };
 
   return (
-<<<<<<< HEAD
     <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/30">
       <div className="container mx-auto px-3 md:px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
@@ -61,18 +60,6 @@ const Header = () => {
                 className="relative h-10 w-10 md:h-14 md:w-14 object-contain transition-transform group-hover:scale-110 group-hover:rotate-3"
               />
             </div>
-=======
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-2 md:px-4">
-        <div className="flex items-center justify-between h-14 md:h-18">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 md:gap-3 group" onClick={handleNavClick}>
-            <img 
-              src={logo} 
-              alt="Sociedade Alternativa" 
-              className="h-8 w-8 md:h-14 md:w-14 object-contain transition-transform group-hover:scale-110"
-            />
->>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
             <div className="hidden sm:block">
               <h1 className="text-lg md:text-xl font-display tracking-wider gradient-text">
                 SOCIEDADE ALTERNATIVA
