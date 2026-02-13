@@ -8,8 +8,11 @@
 console.log('[INIT] Iniciando servidor...')
 
 // ============== SETUP INICIAL ==============
-require('dotenv').config()
-console.log('[ENV] .env carregado')
+const path = require('path')
+require('dotenv').config({ path: path.join(__dirname, '.env') })
+console.log('[ENV] .env carregado de:', path.join(__dirname, '.env'))
+console.log('[ENV] MP_PIX_KEY:', process.env.MP_PIX_KEY || '❌ NÃO ENCONTRADA')
+console.log('[ENV] MP_ACCESS_TOKEN:', process.env.MP_ACCESS_TOKEN ? '✅ OK' : '❌ NÃO ENCONTRADO')
 
 const express = require('express')
 const cors = require('cors')
@@ -238,6 +241,9 @@ app.post('/api/create-pix', (req, res) => {
       console.error('[POST /api/create-pix] ❌ Amount inválido')
       return res.status(400).json({ error: 'amount deve ser > 0' })
     }
+
+    const pixKey = process.env.MP_PIX_KEY
+    console.log('[POST /api/create-pix] Chave PIX:', pixKey || 'NÃO CONFIGURADA')
 
     const body = {
       transaction_amount: parseFloat(amount),

@@ -1,0 +1,20 @@
+[INIT] Iniciando servidor...
+[dotenv@17.2.3] injecting env (2) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[ENV] .env carregado
+[DEPS] Dependências carregadas
+[APP] Express criado
+[CORS] Habilitado para origem *
+[JSON] Parser configurado
+[MP] Access Token: CONFIGURADO
+[MP] Cliente Mercado Pago inicializado
+[SERVER] Iniciando express.listen()...
+[READY] Backend pronto para aceitar conexões!
+
+============================================================
+🔥 Backend Mercado Pago - Checkout Transparente
+🚀 Rodando na porta: 3000
+📝 Ambiente: development
+🌐 URL: http://localhost:3000
+💰 MP Token: ✅ Configurado
+============================================================
+

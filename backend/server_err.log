@@ -1,0 +1,6 @@
+[POST /api/create-payment] ❌ Erro Mercado Pago: diff_param_bins
+[POST /api/create-payment] ❌ Erro Mercado Pago: diff_param_bins
+[POST /api/create-payment] ❌ Erro Mercado Pago: Invalid user identification number
+[POST /api/create-payment] ❌ Erro Mercado Pago: Invalid user identification number
+[POST /api/create-payment] ❌ Erro Mercado Pago: Invalid user identification number
+[404] Rota não encontrada: POST /api/dev/pay-simulate

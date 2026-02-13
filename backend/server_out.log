@@ -1,0 +1,163 @@
+[INIT] Iniciando servidor...
+[dotenv@17.2.3] injecting env (2) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[ENV] .env carregado
+[DEPS] Dependências carregadas
+[APP] Express criado
+[CORS] Habilitado para origem *
+[JSON] Parser configurado
+[MP] Access Token: CONFIGURADO
+[MP] Cliente Mercado Pago inicializado
+[SERVER] Iniciando express.listen()...
+[READY] Backend pronto para aceitar conexões!
+
+============================================================
+🔥 Backend Mercado Pago - Checkout Transparente
+🚀 Rodando na porta: 3000
+📝 Ambiente: development
+🌐 URL: http://localhost:3000
+💰 MP Token: ✅ Configurado
+============================================================
+
+[POST /api/create-payment] Request recebida
+[POST /api/create-payment] Body: {
+  "items": [
+    {
+      "id": "1",
+      "title": "Teste",
+      "quantity": 1,
+      "unit_price": 10
+    }
+  ],
+  "payer": {
+    "email": "teste@teste.com",
+    "name": "Teste"
+  },
+  "installments": 1,
+  "card": {
+    "token": "be79d35beff86d3475cabc83c930579c"
+  }
+}
+[POST /api/create-payment] Enviando para Mercado Pago: {
+  "transaction_amount": 10,
+  "token": "be79d35beff86d3475cabc83c930579c",
+  "description": "Pagamento via Checkout Transparente",
+  "installments": 1,
+  "payment_method_id": "debit_card",
+  "payer": {
+    "email": "teste@teste.com",
+    "identification": {
+      "type": "CPF",
+      "number": "12345678900"
+    }
+  }
+}
+[POST /api/create-payment] Request recebida
+[POST /api/create-payment] Body: {
+  "items": [
+    {
+      "id": "1",
+      "title": "Teste",
+      "quantity": 1,
+      "unit_price": 10
+    }
+  ],
+  "payer": {
+    "email": "teste@teste.com",
+    "name": "Teste"
+  },
+  "installments": 1,
+  "card": {
+    "token": "21bddbe9720cb9a268e586d6ccf5fca3"
+  }
+}
+[POST /api/create-payment] Enviando para Mercado Pago: {
+  "transaction_amount": 10,
+  "token": "21bddbe9720cb9a268e586d6ccf5fca3",
+  "description": "Pagamento via Checkout Transparente",
+  "installments": 1,
+  "payment_method_id": "debit_card",
+  "payer": {
+    "email": "teste@teste.com",
+    "identification": {
+      "type": "CPF",
+      "number": "12345678900"
+    }
+  }
+}
+[POST /api/create-payment] Request recebida
+[POST /api/create-payment] Body: {
+  "amount": 10,
+  "token": "53b8437a4e082c8622655a8d8a1fdf23",
+  "installments": 1,
+  "payment_method_id": "visa",
+  "payer": {
+    "email": "teste@teste.com",
+    "name": "Teste"
+  }
+}
+[POST /api/create-payment] Enviando para Mercado Pago: {
+  "transaction_amount": 10,
+  "token": "53b8437a4e082c8622655a8d8a1fdf23",
+  "description": "Pagamento via Checkout Transparente",
+  "installments": 1,
+  "payment_method_id": "visa",
+  "payer": {
+    "email": "teste@teste.com",
+    "identification": {
+      "type": "CPF",
+      "number": "12345678900"
+    }
+  }
+}
+[POST /api/create-payment] Request recebida
+[POST /api/create-payment] Body: {
+  "amount": 10,
+  "token": "ed6ef9afa0d99bfb46b5edcd5f4a6fe3",
+  "installments": 1,
+  "payment_method_id": "visa",
+  "payer": {
+    "email": "teste@teste.com"
+  }
+}
+[POST /api/create-payment] Enviando para Mercado Pago: {
+  "transaction_amount": 10,
+  "token": "ed6ef9afa0d99bfb46b5edcd5f4a6fe3",
+  "description": "Pagamento via Checkout Transparente",
+  "installments": 1,
+  "payment_method_id": "visa",
+  "payer": {
+    "email": "teste@teste.com",
+    "identification": {
+      "type": "CPF",
+      "number": "12345678900"
+    }
+  }
+}
+[POST /api/create-payment] Request recebida
+[POST /api/create-payment] Body: {
+  "amount": 10,
+  "token": "a5b97069517c1396d5aa338a5b93ec04",
+  "installments": 1,
+  "payment_method_id": "visa",
+  "payer": {
+    "email": "teste@teste.com",
+    "identification": {
+      "type": "CPF",
+      "number": "12345678909"
+    }
+  }
+}
+[POST /api/create-payment] Enviando para Mercado Pago: {
+  "transaction_amount": 10,
+  "token": "a5b97069517c1396d5aa338a5b93ec04",
+  "description": "Pagamento via Checkout Transparente",
+  "installments": 1,
+  "payment_method_id": "visa",
+  "payer": {
+    "email": "teste@teste.com",
+    "identification": {
+      "type": "CPF",
+      "number": "12345678900"
+    }
+  }
+}
