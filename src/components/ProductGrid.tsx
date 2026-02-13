@@ -107,6 +107,7 @@ const ProductGrid = () => {
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Category Pills - Premium design */}
         <div className="mb-8 md:mb-12">
           <div className="flex gap-2 md:gap-3 overflow-x-auto scrollbar-hide pb-3 px-1">
@@ -156,6 +157,36 @@ const ProductGrid = () => {
                   <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.05}s` }}>
                     <ProductCard product={product} />
                   </div>
+=======
+        {/* Mobile Category Filter */}
+        <MobileCategoryFilter
+          selectedCategory={selectedCategory}
+          selectedSubcategory={selectedSubcategory}
+          onSelectCategory={handleSelectCategory}
+        />
+
+        <div className="flex flex-row gap-8">
+          {/* Desktop Sidebar - Hidden on mobile */}
+          <div className="hidden md:block">
+            <CategorySidebar 
+              selectedCategory={selectedCategory}
+              selectedSubcategory={selectedSubcategory}
+              onSelectCategory={handleSelectCategory}
+            />
+          </div>
+          
+          <div className="flex-1">
+            {isLoading ? (
+              <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-4">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <ProductCardSkeleton key={i} />
+                ))}
+              </div>
+            ) : filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-4">
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+>>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
                 ))}
               </div>
             ) : (

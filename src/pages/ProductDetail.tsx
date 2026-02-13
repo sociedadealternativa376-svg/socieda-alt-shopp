@@ -1,6 +1,11 @@
 import { useParams, useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import { ShoppingBag, Shield, Truck, RotateCcw } from 'lucide-react';
+=======
+import { ShoppingCart, MessageCircle, Shield, Truck, RotateCcw } from 'lucide-react';
+>>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
 import { products } from '@/data/products';
+import { useCart } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Breadcrumbs from '@/components/Breadcrumbs';
@@ -47,6 +52,11 @@ const ProductDetail = () => {
     addToCart(product);
   };
 
+  const handleBuy = () => {
+    addToCart(product);
+    navigate('/checkout');
+  };
+
   const relatedProducts = products
     .filter(p => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
@@ -67,19 +77,19 @@ const ProductDetail = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Image Gallery */}
             <div className="space-y-4">
-              <div className="aspect-square rounded-lg overflow-hidden bg-card gradient-border">
-                <img 
-                  src={productImages[selectedImage]} 
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="grid grid-cols-4 gap-4">
+                <div className="rounded-lg overflow-hidden bg-card gradient-border max-h-96">
+                  <img 
+                    src={productImages[selectedImage]} 
+                    alt={product.name}
+                    className="w-full max-h-96 object-contain"
+                  />
+                </div>
+              <div className="grid grid-cols-5 gap-2">
                 {productImages.map((img, index) => (
                   <button
                     key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                      onClick={() => setSelectedImage(index)}
+                      className={`h-14 md:h-16 rounded-lg overflow-hidden border-2 transition-all ${
                       selectedImage === index 
                         ? 'border-primary' 
                         : 'border-border hover:border-primary/50'
@@ -130,6 +140,7 @@ const ProductDetail = () => {
                 </div>
               </div>
 
+<<<<<<< HEAD
               {/* Action Button */}
               <button 
                 onClick={handleAddToCart}
@@ -138,6 +149,26 @@ const ProductDetail = () => {
                 <ShoppingBag className="h-6 w-6" />
                 ADICIONAR AO CARRINHO
               </button>
+=======
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <button 
+                  onClick={handleBuy}
+                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-display text-lg tracking-wider transition-all hover:scale-[1.02]"
+                >
+                  <ShoppingCart className="h-6 w-6" />
+                  COMPRAR AGORA
+                </button>
+                <button 
+                  onClick={handleWhatsAppOrder}
+                  className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-display text-lg tracking-wider transition-all hover:scale-[1.02]"
+                  title="Fale conosco no WhatsApp para dúvidas"
+                >
+                  <MessageCircle className="h-6 w-6" />
+                  CONVERSAR
+                </button>
+              </div>
+>>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
 
               {/* Stock Status */}
               <div className="flex items-center gap-2">
@@ -186,25 +217,25 @@ const ProductDetail = () => {
           {relatedProducts.length > 0 && (
             <div className="mt-20">
               <h2 className="text-3xl font-display gradient-text mb-8">PRODUTOS RELACIONADOS</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
                 {relatedProducts.map((relatedProduct) => (
                   <button
                     key={relatedProduct.id}
                     onClick={() => navigate(`/produto/${relatedProduct.id}`)}
                     className="group bg-card rounded-lg overflow-hidden hover-glow gradient-border text-left"
                   >
-                    <div className="aspect-square overflow-hidden">
+                    <div className="h-28 lg:h-24 overflow-hidden">
                       <img 
                         src={relatedProduct.image} 
                         alt={relatedProduct.name}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                     </div>
-                    <div className="p-4">
-                      <h3 className="font-display text-lg text-foreground line-clamp-1">
+                    <div className="p-2 md:p-3">
+                      <h3 className="font-display text-xs md:text-sm text-foreground line-clamp-1">
                         {relatedProduct.name}
                       </h3>
-                      <p className="text-primary font-bold mt-1">
+                      <p className="text-primary font-bold text-xs md:text-sm mt-1">
                         R$ {relatedProduct.price.toFixed(2)}
                       </p>
                     </div>

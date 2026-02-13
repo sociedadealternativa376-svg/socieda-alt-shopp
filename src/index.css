@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -15,7 +15,7 @@
     --popover: 45 15% 98%;
     --popover-foreground: 0 0% 10%;
 
-    --primary: 25 95% 53%;
+    --primary: 0 0% 12%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 45 10% 90%;
@@ -36,6 +36,7 @@
 
     --radius: 0.75rem;
 
+<<<<<<< HEAD
     /* Custom colors */
     --warm-orange: 25 95% 53%;
     --warm-red: 5 85% 50%;
@@ -47,8 +48,21 @@
     --gradient-glow: 0 0 30px hsl(25 95% 53% / 0.4);
     --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.1), hsl(0 0% 100% / 0.05));
     
+=======
+    /* Custom colors (neutralized) */
+    --warm-orange: 0 0% 10%;
+    --warm-red: 0 0% 12%;
+    --warm-yellow: 0 0% 14%;
+
+    /* Gradients (neutral) */
+    --gradient-warm: linear-gradient(135deg, hsl(0 0% 12%), hsl(0 0% 14%), hsl(0 0% 10%));
+    --gradient-warm-hover: linear-gradient(135deg, hsl(0 0% 14%), hsl(0 0% 16%), hsl(0 0% 12%));
+    --gradient-glow: 0 0 10px hsl(0 0% 0% / 0.25);
+    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.04), hsl(0 0% 100% / 0.02));
+
+>>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
     /* Shadows */
-    --shadow-warm: 0 4px 20px hsl(25 95% 53% / 0.3);
+    --shadow-warm: 0 4px 20px hsl(0 0% 0% / 0.25);
     --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.1);
     --shadow-elevated: 0 8px 30px hsl(0 0% 0% / 0.12);
     --shadow-glow: 0 0 40px hsl(25 95% 53% / 0.25);
@@ -73,8 +87,8 @@
     --popover: 0 0% 7%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 25 95% 53%;
-    --primary-foreground: 0 0% 5%;
+    --primary: 0 0% 12%;
+    --primary-foreground: 0 0% 95%;
 
     --secondary: 0 0% 11%;
     --secondary-foreground: 0 0% 95%;
@@ -92,6 +106,7 @@
     --input: 0 0% 16%;
     --ring: 25 95% 53%;
 
+<<<<<<< HEAD
     /* Custom colors */
     --warm-orange: 25 95% 53%;
     --warm-red: 5 85% 50%;
@@ -109,6 +124,25 @@
     --shadow-elevated: 0 8px 30px hsl(0 0% 0% / 0.5);
     --shadow-glow: 0 0 40px hsl(25 95% 53% / 0.2);
 
+=======
+    /* Custom colors (neutralized) */
+    --warm-orange: 0 0% 10%;
+    --warm-red: 0 0% 12%;
+    --warm-yellow: 0 0% 14%;
+
+    /* Gradients (neutral) */
+    --gradient-warm: linear-gradient(135deg, hsl(0 0% 12%), hsl(0 0% 14%), hsl(0 0% 10%));
+    --gradient-warm-hover: linear-gradient(135deg, hsl(0 0% 14%), hsl(0 0% 16%), hsl(0 0% 12%));
+    --gradient-glow: 0 0 10px hsl(0 0% 0% / 0.25);
+    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.04), hsl(0 0% 100% / 0.02));
+
+    /* Shadows */
+    --shadow-warm: 0 4px 20px hsl(0 0% 0% / 0.25);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.4);
+    --shadow-elevated: 0 8px 30px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 40px hsl(25 95% 53% / 0.2);
+
+>>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
     --sidebar-background: 0 0% 5%;
     --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 25 95% 53%;
@@ -118,21 +152,54 @@
     --sidebar-border: 0 0% 14%;
     --sidebar-ring: 25 95% 53%;
   }
-}
 
-@layer base {
   * {
-    @apply border-border;
+    box-sizing: border-box;
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 0.05em;
+  }
+
+  [class*="bg-background"] {
+    background-color: hsl(var(--background)) !important;
+  }
+
+  [class*="text-foreground"] {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  [class*="text-muted-foreground"] {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+
+  [class*="bg-card"] {
+    background-color: hsl(var(--card)) !important;
+  }
+
+  [class*="text-primary-foreground"] {
+    color: hsl(var(--primary-foreground)) !important;
+  }
+
+  [class*="bg-gradient"] {
+    background: var(--gradient-warm) !important;
+  }
+
+  [class*="rounded-full"] {
+    border-radius: 9999px;
+  }
+
+  [class*="glow-effect"] {
+    box-shadow: var(--gradient-glow) !important;
   }
 }
 
@@ -477,4 +544,8 @@
     0% { background-position: 0% center; }
     100% { background-position: 200% center; }
   }
+<<<<<<< HEAD
 }
+=======
+} 
+>>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)

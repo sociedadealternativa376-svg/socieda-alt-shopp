@@ -1,6 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { Product } from '@/types/product';
+<<<<<<< HEAD
 import { ShoppingBag, Eye } from 'lucide-react';
+=======
+import { ShoppingCart, Eye } from 'lucide-react';
+>>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
 import { useCart } from '@/context/CartContext';
 
 interface ProductCardProps {
@@ -15,9 +19,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
     navigate(`/produto/${product.id}`);
   };
 
+<<<<<<< HEAD
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
     addToCart(product);
+=======
+  const handleBuy = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCart(product);
+    navigate('/checkout');
+>>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
   };
 
   return (
@@ -25,7 +36,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
       className="group relative bg-card rounded-xl overflow-hidden gradient-border cursor-pointer transition-all duration-300 hover:shadow-[0_8px_30px_hsl(var(--primary)/0.2)] hover:-translate-y-1 h-full flex flex-col"
       onClick={handleViewProduct}
     >
+<<<<<<< HEAD
       <div className="aspect-[4/5] md:aspect-square overflow-hidden relative flex-shrink-0 bg-secondary">
+=======
+      <div className="h-48 md:h-46 lg:h-42 overflow-hidden relative">
+>>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
         <img 
           src={product.image} 
           alt={product.name}
@@ -36,7 +51,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         {/* Quick View Button - Hidden on mobile */}
         <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
           <button 
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/90 text-background font-medium text-sm transition-transform hover:scale-105 shadow-lg"
+            className="flex items-center gap-2 px-4 py-2 rounded-md bg-foreground/90 text-background font-medium text-sm transition-transform hover:scale-105 shadow-lg"
             onClick={handleViewProduct}
           >
             <Eye className="h-4 w-4" />
@@ -45,6 +60,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       </div>
       
+<<<<<<< HEAD
       <div className="p-2.5 md:p-4 flex flex-col flex-1">
         <span className="text-[9px] md:text-xs text-primary font-medium uppercase tracking-wider line-clamp-1 transition-colors group-hover:text-primary/80">
           {product.subcategory || product.category}
@@ -66,6 +82,29 @@ const ProductCard = ({ product }: ProductCardProps) => {
           >
             <ShoppingBag className="h-3 w-3 md:h-4 md:w-4" />
             Comprar
+=======
+      <div className="p-2 md:p-3">
+        <span className="inline-block bg-black text-primary-foreground px-2 py-1 rounded-md text-[9px] md:text-xs font-medium uppercase tracking-wider line-clamp-1 transition-colors">
+          {product.subcategory ? product.subcategory : product.category}
+        </span>
+        <h3 className="font-display text-xs md:text-sm text-foreground mt-1 line-clamp-1 transition-colors group-hover:gradient-text">
+          {product.name}
+        </h3>
+        <p className="hidden lg:block text-xs text-muted-foreground line-clamp-1 mb-2">
+          {product.description}
+        </p>
+        
+        <div className="flex flex-col gap-1 mt-2">
+          <span className="text-xs md:text-base font-bold gradient-text">
+            R$ {product.price.toFixed(2)}
+          </span>
+          <button 
+            onClick={handleBuy}
+            className="w-full flex items-center justify-center gap-1 px-2 py-1.5 rounded-md bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-[10px] md:text-xs transition-all hover:scale-105 active:scale-95 shadow-md"
+          >
+            <ShoppingCart className="h-3 w-3" />
+            <span className="hidden sm:inline">Comprar</span>
+>>>>>>> b602398b (Initial commit: Mercado Pago PIX + Google OAuth integration)
           </button>
         </div>
       </div>

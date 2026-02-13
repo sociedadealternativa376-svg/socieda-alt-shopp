@@ -1,0 +1,1 @@
+﻿{ items:[{id:1,title:Teste,quantity:1,unit_price:10.0}],payer:{email:teste@teste.com,name:Teste},installments:1,card:{number:4509953566233704,holder_name:Teste,expiration_month:12,expiration_year:2025,security_code:123}}

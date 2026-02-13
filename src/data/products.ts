@@ -83,7 +83,6 @@ import narg08015 from '@/assets/products/nariz/narg-08015.png';
 import narg08015_2 from '@/assets/products/nariz/narg-08015-2.png';
 
 // Tragus/Orelha
-import rt01015 from '@/assets/products/tragus/rt-01015.png';
 import rt01015_2 from '@/assets/products/tragus/rt-01015-2.png';
 import rt02018 from '@/assets/products/tragus/rt-02018.png';
 import rt02018_2 from '@/assets/products/tragus/rt-02018-2.png';
@@ -788,8 +787,8 @@ export const products: ProductWithGallery[] = [
     id: 'rt-01015',
     name: 'Piercing Orelha Escorpião',
     price: 70.00,
-    image: rt01015,
-    gallery: [rt01015, rt01015_2],
+    image: rt01015_2,
+    gallery: [rt01015_2, rt01015_2],
     category: 'joia',
     subcategory: 'orelha',
     description: 'Piercing orelha escorpião disponível em dourado e prata em aço cirúrgico',

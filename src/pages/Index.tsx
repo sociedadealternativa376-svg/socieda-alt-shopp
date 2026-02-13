@@ -1,7 +1,7 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import PromoBanner from '@/components/PromoBanner';
-import ProductGrid from '@/components/ProductGrid';
+import CategoryCarousels from '@/components/CategoryCarousels';
 import About from '@/components/About';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
@@ -13,7 +13,7 @@ const Index = () => {
       <main>
         <Hero />
         <PromoBanner />
-        <ProductGrid />
+        <CategoryCarousels />
         <About />
       </main>
       <Footer />
