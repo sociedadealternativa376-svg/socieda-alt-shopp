@@ -10,7 +10,8 @@ export default function PixCheckout() {
 
     setLoading(true)
 
-    const response = await fetch("http://localhost:3000/pix", {
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${API_BASE}/pix`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

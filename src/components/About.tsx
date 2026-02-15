@@ -29,9 +29,9 @@ const features = [
 
 const About = () => {
   return (
-    <section id="sobre" className="py-20 md:py-28 relative overflow-hidden">
+    <section id="sobre" className="py-20 md:py-28 relative overflow-hidden bg-black">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/50 to-black" />
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-0 w-80 h-80 bg-warm-red/5 rounded-full blur-3xl" />
@@ -46,7 +46,7 @@ const About = () => {
           <h2 className="text-4xl md:text-6xl font-display text-gradient-animate mb-4">
             POR QUE NOS ESCOLHER
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+          <p className="text-zinc-400 max-w-2xl mx-auto text-lg">
             Na Sociedade Alternativa, cada cliente é único e cada trabalho é tratado com a máxima dedicação
           </p>
         </div>
@@ -67,10 +67,10 @@ const About = () => {
                 </div>
               </div>
               
-              <h3 className="font-display text-xl text-foreground mb-3 group-hover:text-primary transition-colors">
+              <h3 className="font-display text-xl text-white mb-3 group-hover:text-primary transition-colors">
                 {feature.title}
               </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
+              <p className="text-zinc-400 text-sm leading-relaxed">
                 {feature.description}
               </p>
             </div>
@@ -83,7 +83,7 @@ const About = () => {
             href="https://wa.me/5511952222008?text=Olá! Vim pelo site e gostaria de agendar!"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gradient btn-ripple inline-flex items-center gap-3 px-8 py-4 rounded-full text-primary-foreground font-display text-lg tracking-wider"
+            className="btn-ripple inline-flex items-center gap-3 px-8 py-4 rounded-full font-display text-lg tracking-wider bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-black font-semibold hover:opacity-90 shadow-lg"
           >
             AGENDAR AGORA
             <ArrowRight className="h-5 w-5" />

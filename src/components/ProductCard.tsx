@@ -40,7 +40,7 @@ const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
         {/* Quick View Button - Hidden on mobile */}
         <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
           <button 
-            className="flex items-center gap-2 px-4 py-2 rounded-md bg-foreground/90 text-background font-medium text-sm transition-transform hover:scale-105 shadow-lg"
+            className="flex items-center gap-2 px-4 py-2 rounded-md bg-white/95 text-black font-medium text-sm transition-transform hover:scale-105 shadow-lg"
             onClick={handleViewProduct}
           >
             <Eye className="h-4 w-4" />
@@ -66,7 +66,7 @@ const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
           </span>
           <button 
             onClick={handleBuy}
-            className="w-full flex items-center justify-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-gradient-to-r from-warm-yellow via-warm-orange to-warm-red hover:opacity-90 text-white font-medium text-[10px] md:text-xs transition-all hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 hover:opacity-90 text-black font-semibold text-[10px] md:text-xs transition-all hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
           >
             <ShoppingBag className="h-3 w-3 md:h-4 md:w-4" />
             Comprar

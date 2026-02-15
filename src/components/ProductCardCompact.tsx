@@ -45,7 +45,7 @@ const ProductCardCompact = ({ product }: ProductCardCompactProps) => {
         {/* Quick Add Button with ripple */}
         <button 
           onClick={handleAddToCart}
-          className={`btn-ripple absolute bottom-3 right-3 w-9 h-9 rounded-full bg-gradient-to-r from-warm-yellow via-primary to-warm-red text-primary-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg ${isAdding ? 'scale-125' : ''}`}
+          className={`btn-ripple absolute bottom-3 right-3 w-9 h-9 rounded-full bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg ${isAdding ? 'scale-125' : ''}`}
         >
           <Plus className={`h-4 w-4 transition-transform ${isAdding ? 'rotate-90' : ''}`} />
         </button>

@@ -3,15 +3,9 @@ import { ArrowDown, Sparkles } from 'lucide-react';
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-16 md:pt-0">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
-      
-      {/* Mesh gradient overlay */}
-      <div className="absolute inset-0 opacity-30 dark:opacity-20">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,hsl(var(--warm-yellow)/0.15)_0%,transparent_50%)]" />
-        <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_right,hsl(var(--warm-red)/0.15)_0%,transparent_50%)]" />
-      </div>
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-16 md:pt-0 bg-black">
+      {/* Fundo preto sólido - cabeçalho e hero sempre pretos */}
+      <div className="absolute inset-0 bg-black" />
       
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -48,14 +42,14 @@ const Hero = () => {
         {/* Subtitle with sparkle */}
         <div className="flex items-center justify-center gap-2 mb-6 md:mb-8 animate-slide-up stagger-1">
           <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-          <p className="text-base md:text-2xl text-muted-foreground tracking-widest">
+          <p className="text-base md:text-2xl text-zinc-400 tracking-widest">
             PIERCINGS • TATTOOS • JOIAS
           </p>
           <Sparkles className="w-4 h-4 text-primary animate-pulse" />
         </div>
 
         {/* Description */}
-        <p className="max-w-2xl mx-auto text-foreground/80 text-sm md:text-lg mb-8 md:mb-12 px-4 animate-slide-up stagger-2">
+        <p className="max-w-2xl mx-auto text-zinc-300 text-sm md:text-lg mb-8 md:mb-12 px-4 animate-slide-up stagger-2">
           Expressão através da arte corporal. Joias exclusivas, piercings profissionais 
           e tatuagens que contam sua história.
         </p>
@@ -63,7 +57,7 @@ const Hero = () => {
         {/* CTA Button with premium effect */}
         <a 
           href="#produtos"
-          className="btn-gradient btn-ripple inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 rounded-full text-primary-foreground font-display text-lg md:text-xl tracking-wider animate-slide-up stagger-3"
+          className="btn-ripple inline-flex items-center gap-2 px-8 md:px-10 py-4 md:py-5 rounded-full font-display text-lg md:text-xl tracking-wider animate-slide-up stagger-3 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-black font-semibold hover:opacity-90 shadow-lg"
         >
           VER PRODUTOS
           <ArrowDown className="h-5 w-5 animate-bounce-subtle" />
@@ -71,7 +65,7 @@ const Hero = () => {
       </div>
 
       {/* Scroll Indicator - Premium style */}
-      <div className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground animate-fade-in">
+      <div className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-zinc-500 animate-fade-in">
         <span className="text-xs tracking-[0.3em] uppercase">Role para explorar</span>
         <div className="w-6 h-10 rounded-full border-2 border-primary/30 flex justify-center pt-2">
           <div className="w-1 h-2 rounded-full bg-primary animate-bounce" />

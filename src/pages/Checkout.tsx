@@ -32,13 +32,21 @@ const Checkout = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  // Dados do cliente
+  // Dados do cliente + endereço
   const [customerData, setCustomerData] = useState({
     email: '',
     name: '',
     phone: '',
+    cep: '',
+    street: '',
+    number: '',
+    complement: '',
+    neighborhood: '',
+    city: '',
+    state: '',
   });
   const [shippingErrors, setShippingErrors] = useState<FormErrors>({});
+  const [loadingCep, setLoadingCep] = useState(false);
 
   // Cartão
   const [cardData, setCardData] = useState<CardFormData>({
@@ -104,12 +112,42 @@ const Checkout = () => {
     setTimeout(() => setPixCopied(false), 2000);
   };
 
+  // Buscar endereço pelo CEP (ViaCEP)
+  const fetchAddressByCep = async (cep: string) => {
+    const digits = cep.replace(/\D/g, '');
+    if (digits.length !== 8) return;
+    setLoadingCep(true);
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
+      const data = await res.json();
+      if (!data.erro) {
+        setCustomerData((prev) => ({
+          ...prev,
+          street: data.logradouro || prev.street,
+          neighborhood: data.bairro || prev.neighborhood,
+          city: data.localidade || prev.city,
+          state: data.uf || prev.state,
+        }));
+      }
+    } catch {
+      // ignore
+    } finally {
+      setLoadingCep(false);
+    }
+  };
+
+  const formatCep = (value: string) => value.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2').slice(0, 9);
+
   // Handle Pix button: use Checkout Pro preference (opens Mercado Pago checkout)
   const handlePixPayment = async () => {
-    // Validação dos dados do cliente
+    // Validação dos dados do cliente e endereço
     if (!customerData.email || !customerData.name || !customerData.phone) {
-      setError('Por favor, preencha todos os dados de entrega antes de gerar o PIX')
-      return
+      setError('Por favor, preencha todos os dados de entrega antes de gerar o PIX');
+      return;
+    }
+    if (!customerData.cep || !customerData.street || !customerData.number || !customerData.city || !customerData.state) {
+      setError('Por favor, preencha o endereço completo (CEP, rua, número, cidade e estado)');
+      return;
     }
 
     setIsProcessing(true)
@@ -138,7 +176,10 @@ const Checkout = () => {
           throw new Error(errorData.error || errorData.message || `Erro do servidor: ${resp.status}`)
         } catch (parseError) {
           if (resp.status === 0 || resp.status >= 500) {
-            throw new Error('Servidor não está respondendo. Verifique se o backend está rodando na porta 3000.')
+            throw new Error(`Servidor não está respondendo em ${API_BASE}. Em produção, configure VITE_API_BASE_URL na Vercel.`)
+          }
+          if (resp.status === 405) {
+            throw new Error(`Método não permitido (405). Confira na Vercel: variável VITE_API_BASE_URL (com underscore), URL do Railway sem barra no final. Depois faça Redeploy.`)
           }
           throw new Error(`Erro ao conectar com o servidor: ${resp.statusText}`)
         }
@@ -171,7 +212,10 @@ const Checkout = () => {
       
       // Mensagens de erro mais específicas
       if (err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError')) {
-        setError('Não foi possível conectar ao servidor. Verifique se o backend está rodando em http://localhost:3000')
+        const isProduction = typeof window !== 'undefined' && !window.location.hostname.includes('localhost')
+        setError(isProduction
+          ? 'Não foi possível conectar à API de pagamento. Configure a variável VITE_API_BASE_URL na Vercel com a URL do seu backend.'
+          : `Não foi possível conectar ao servidor. Verifique se o backend está rodando em ${API_BASE}`)
       } else if (err.message) {
         setError(err.message)
       } else {
@@ -292,6 +336,14 @@ const Checkout = () => {
   // Processar pagamento com cartão
   const handleCardPayment = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!customerData.email || !customerData.name || !customerData.phone) {
+      setError('Preencha todos os dados de entrega.');
+      return;
+    }
+    if (!customerData.cep || !customerData.street || !customerData.number || !customerData.city || !customerData.state) {
+      setError('Preencha o endereço completo (CEP, rua, número, cidade e estado).');
+      return;
+    }
     if (!validateCard()) return;
 
     setIsProcessing(true);
@@ -375,6 +427,10 @@ const Checkout = () => {
       setError('Preencha todos os dados antes de continuar');
       return;
     }
+    if (!customerData.cep || !customerData.street || !customerData.number || !customerData.city || !customerData.state) {
+      setError('Preencha o endereço completo antes de continuar');
+      return;
+    }
 
     setIsProcessing(true);
     setError('');
@@ -413,14 +469,14 @@ const Checkout = () => {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen bg-zinc-950 flex flex-col">
         <Header />
         <div className="flex-1 flex items-center justify-center pt-24">
           <div className="text-center">
-            <h1 className="text-4xl font-display mb-4">Carrinho vazio</h1>
+            <h1 className="text-4xl font-display mb-4 text-white">Carrinho vazio</h1>
             <button
               onClick={() => navigate('/#produtos')}
-              className="px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+              className="px-6 py-3 bg-sky-500 text-white rounded-lg hover:bg-sky-600 font-medium"
             >
               Voltar aos produtos
             </button>
@@ -432,37 +488,37 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-zinc-950 flex flex-col">
       <Header />
-      <main className="flex-1 pt-24 pb-16">
+      <main className="flex-1 pt-24 pb-16 bg-zinc-950">
         <div className="container mx-auto px-4 max-w-7xl">
-          <h1 className="text-3xl md:text-4xl font-display font-bold mb-8 text-foreground">Finalizar Compra</h1>
+          <h1 className="text-3xl md:text-4xl font-display font-bold mb-8 text-white">Finalizar Compra</h1>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Coluna esquerda: Resumo do pedido */}
             <div className="lg:col-span-1 order-2 lg:order-1">
-              <div className="bg-card rounded-lg border border-border/50 p-6 sticky top-24 shadow-sm">
-                <h2 className="font-semibold text-lg mb-6 text-foreground">Resumo do Pedido</h2>
+              <div className="bg-zinc-900 rounded-xl border border-zinc-700/80 p-6 sticky top-24 shadow-xl">
+                <h2 className="font-semibold text-lg mb-6 text-white">Resumo do Pedido</h2>
 
                 {/* Itens */}
-                <div className="space-y-4 mb-6 pb-6 border-b border-border max-h-96 overflow-y-auto">
+                <div className="space-y-4 mb-6 pb-6 border-b border-zinc-700 max-h-96 overflow-y-auto">
                   {items.map((item) => (
                     <div key={item.id} className="flex gap-3">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="h-16 w-16 object-cover rounded"
+                        className="h-16 w-16 object-cover rounded-lg"
                       />
                       <div className="flex-1 text-sm">
-                        <h3 className="font-medium text-foreground">{item.name}</h3>
-                        <p className="text-muted-foreground">Qty: {item.quantity}</p>
-                        <p className="font-bold text-primary mt-1">
+                        <h3 className="font-medium text-zinc-100">{item.name}</h3>
+                        <p className="text-zinc-400">Qty: {item.quantity}</p>
+                        <p className="font-bold text-sky-400 mt-1">
                           R$ {(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
                       <button
                         onClick={() => removeFromCart(item.id)}
-                        className="text-destructive hover:bg-destructive/10 p-1 rounded"
+                        className="text-red-400 hover:bg-red-500/10 p-1 rounded"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
@@ -473,21 +529,21 @@ const Checkout = () => {
                 {/* Totais */}
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Subtotal:</span>
-                    <span className="font-medium">R$ {total.toFixed(2)}</span>
+                    <span className="text-zinc-400">Subtotal:</span>
+                    <span className="font-medium text-zinc-100">R$ {total.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Frete:</span>
-                    <span className="text-muted-foreground">A cobrar</span>
+                    <span className="text-zinc-400">Frete:</span>
+                    <span className="text-zinc-400">A cobrar</span>
                   </div>
-                  <div className="flex justify-between text-lg font-bold pt-3 border-t border-border">
-                    <span className="text-foreground">Total:</span>
-                    <span className="text-foreground">R$ {total.toFixed(2)}</span>
+                  <div className="flex justify-between text-lg font-bold pt-3 border-t border-zinc-700">
+                    <span className="text-white">Total:</span>
+                    <span className="text-white">R$ {total.toFixed(2)}</span>
                   </div>
                 </div>
 
                 {/* Segurança */}
-                <div className="flex items-center gap-2 text-xs text-muted-foreground bg-secondary p-3 rounded">
+                <div className="flex items-center gap-2 text-xs text-zinc-400 bg-zinc-800/80 p-3 rounded-lg">
                   <Lock className="h-4 w-4" />
                   <span>Pagamento 100% seguro</span>
                 </div>
@@ -496,51 +552,136 @@ const Checkout = () => {
 
             {/* Coluna direita: Formulário de pagamento */}
             <div className="lg:col-span-2 order-1 lg:order-2">
-              {/* Dados do cliente */}
-              <div className="bg-card rounded-lg border border-border/50 p-6 mb-6 shadow-sm">
-                <h2 className="font-semibold text-lg mb-4 text-foreground">Dados de Entrega</h2>
+              {/* Dados do cliente + Endereço */}
+              <div className="bg-zinc-900 rounded-xl border border-zinc-700/80 p-6 mb-6 shadow-xl">
+                <h2 className="font-semibold text-lg mb-5 text-white">Dados de Entrega</h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
+                    <label className="block text-sm font-medium mb-2 text-zinc-300">Email</label>
                     <input
                       type="email"
                       value={customerData.email}
                       onChange={(e) => setCustomerData({ ...customerData, email: e.target.value })}
                       placeholder="seu@email.com"
-                      className="w-full px-4 py-2.5 rounded-md bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm transition-all"
+                      className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all"
                     />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">Nome Completo</label>
+                      <label className="block text-sm font-medium mb-2 text-zinc-300">Nome Completo</label>
                       <input
                         type="text"
                         value={customerData.name}
                         onChange={(e) => setCustomerData({ ...customerData, name: e.target.value })}
                         placeholder="Seu nome"
-                        className="w-full px-4 py-2.5 rounded-md bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm transition-all"
+                        className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Telefone</label>
+                      <label className="block text-sm font-medium mb-2 text-zinc-300">Telefone</label>
                       <input
                         type="tel"
                         value={customerData.phone}
                         onChange={(e) => setCustomerData({ ...customerData, phone: e.target.value })}
                         placeholder="(11) 99999-9999"
-                        className="w-full px-4 py-2.5 rounded-md bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm transition-all"
+                        className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all"
                       />
+                    </div>
+                  </div>
+
+                  {/* Endereço */}
+                  <div className="pt-4 border-t border-zinc-700">
+                    <p className="text-sm font-medium text-zinc-300 mb-3">Endereço de entrega</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="sm:col-span-1">
+                        <label className="block text-sm font-medium mb-2 text-zinc-300">CEP</label>
+                        <input
+                          type="text"
+                          value={customerData.cep}
+                          onChange={(e) => setCustomerData({ ...customerData, cep: formatCep(e.target.value) })}
+                          onBlur={() => fetchAddressByCep(customerData.cep)}
+                          placeholder="00000-000"
+                          maxLength={9}
+                          className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all"
+                        />
+                        {loadingCep && <p className="text-xs text-sky-400 mt-1">Buscando...</p>}
+                      </div>
+                      <div className="sm:col-span-2">
+                        <label className="block text-sm font-medium mb-2 text-zinc-300">Rua</label>
+                        <input
+                          type="text"
+                          value={customerData.street}
+                          onChange={(e) => setCustomerData({ ...customerData, street: e.target.value })}
+                          placeholder="Nome da rua"
+                          className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2 text-zinc-300">Número</label>
+                        <input
+                          type="text"
+                          value={customerData.number}
+                          onChange={(e) => setCustomerData({ ...customerData, number: e.target.value })}
+                          placeholder="123"
+                          className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2 text-zinc-300">Complemento</label>
+                        <input
+                          type="text"
+                          value={customerData.complement}
+                          onChange={(e) => setCustomerData({ ...customerData, complement: e.target.value })}
+                          placeholder="Apto, bloco..."
+                          className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2 text-zinc-300">Bairro</label>
+                        <input
+                          type="text"
+                          value={customerData.neighborhood}
+                          onChange={(e) => setCustomerData({ ...customerData, neighborhood: e.target.value })}
+                          placeholder="Bairro"
+                          className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2 text-zinc-300">Cidade</label>
+                        <input
+                          type="text"
+                          value={customerData.city}
+                          onChange={(e) => setCustomerData({ ...customerData, city: e.target.value })}
+                          placeholder="Cidade"
+                          className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2 text-zinc-300">Estado</label>
+                        <input
+                          type="text"
+                          value={customerData.state}
+                          onChange={(e) => setCustomerData({ ...customerData, state: e.target.value.toUpperCase().slice(0, 2) })}
+                          placeholder="SP"
+                          maxLength={2}
+                          className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white placeholder-zinc-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all uppercase"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Métodos de pagamento - Abas */}
-              <div className="bg-card rounded-lg border border-border/50 p-6 mb-6 shadow-sm">
-                <h2 className="font-semibold text-lg mb-4 text-foreground">Método de Pagamento</h2>
+              <div className="bg-zinc-900 rounded-xl border border-zinc-700/80 p-6 mb-6 shadow-xl">
+                <h2 className="font-semibold text-lg mb-4 text-white">Método de Pagamento</h2>
 
                 {/* Abas */}
-                <div className="flex gap-4 mb-6 border-b border-border">
+                <div className="flex gap-4 mb-6 border-b border-zinc-700">
                   <button
                     onClick={() => {
                       setPaymentMethod('card');
@@ -549,8 +690,8 @@ const Checkout = () => {
                     }}
                     className={`pb-3 font-medium text-sm px-2 border-b-2 transition-all ${
                       paymentMethod === 'card'
-                        ? 'border-primary text-primary'
-                        : 'border-transparent text-muted-foreground hover:text-foreground'
+                        ? 'border-sky-500 text-sky-400'
+                        : 'border-transparent text-zinc-400 hover:text-zinc-200'
                     }`}
                   >
                     💳 Cartão de Crédito
@@ -562,8 +703,8 @@ const Checkout = () => {
                     }}
                     className={`pb-3 font-medium text-sm px-2 border-b-2 transition-all ${
                       paymentMethod === 'pix'
-                        ? 'border-primary text-primary'
-                        : 'border-transparent text-muted-foreground hover:text-foreground'
+                        ? 'border-sky-500 text-sky-400'
+                        : 'border-transparent text-zinc-400 hover:text-zinc-200'
                     }`}
                   >
                     🎯 Pix
@@ -572,14 +713,14 @@ const Checkout = () => {
 
                 {/* Alertas */}
                 {error && (
-                  <div className="mb-4 p-3 rounded-md bg-destructive/10 border border-destructive/30 flex gap-2 text-sm text-destructive">
+                  <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 flex gap-2 text-sm text-red-400">
                     <AlertCircle className="h-5 w-5 flex-shrink-0" />
                     <span>{error}</span>
                   </div>
                 )}
 
                 {success && (
-                  <div className="mb-4 p-3 rounded-md bg-green-500/10 border border-green-500/30 flex gap-2 text-sm text-green-600">
+                  <div className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/30 flex gap-2 text-sm text-green-400">
                     <Check className="h-5 w-5 flex-shrink-0" />
                     <span>Pagamento realizado com sucesso!</span>
                   </div>
@@ -590,7 +731,7 @@ const Checkout = () => {
                   <form onSubmit={handleCardPayment} className="space-y-4">
                     {/* Número do cartão */}
                     <div>
-                      <label className="block text-sm font-medium mb-2">Número do Cartão</label>
+                      <label className="block text-sm font-medium mb-2 text-zinc-300">Número do Cartão</label>
                       <input
                         type="text"
                         value={cardData.cardNumber}
@@ -604,18 +745,18 @@ const Checkout = () => {
                         onBlur={fetchInstallments}
                         placeholder="0000 0000 0000 0000"
                         maxLength={19}
-                        className={`w-full px-4 py-2.5 rounded-md bg-background border text-lg tracking-wider focus:outline-none focus:ring-2 transition-all ${
-                          cardErrors.cardNumber ? 'border-destructive focus:border-destructive focus:ring-destructive/20' : 'border-border focus:border-primary focus:ring-primary/20'
+                        className={`w-full px-4 py-2.5 rounded-lg bg-zinc-800 border text-lg tracking-wider text-white placeholder-zinc-500 focus:outline-none focus:ring-2 transition-all ${
+                          cardErrors.cardNumber ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-zinc-600 focus:border-sky-500 focus:ring-sky-500/20'
                         }`}
                       />
                       {cardErrors.cardNumber && (
-                        <p className="text-xs text-destructive mt-1">{cardErrors.cardNumber}</p>
+                        <p className="text-xs text-red-400 mt-1">{cardErrors.cardNumber}</p>
                       )}
                     </div>
 
                     {/* Nome do titular */}
                     <div>
-                      <label className="block text-sm font-medium mb-2">Nome do Titular</label>
+                      <label className="block text-sm font-medium mb-2 text-zinc-300">Nome do Titular</label>
                       <input
                         type="text"
                         value={cardData.cardholderName}
@@ -626,19 +767,19 @@ const Checkout = () => {
                           }
                         }}
                         placeholder="NOME SOBRENOME"
-                        className={`w-full px-4 py-2.5 rounded-md bg-background border text-sm uppercase focus:outline-none focus:ring-2 transition-all ${
-                          cardErrors.cardholderName ? 'border-destructive focus:border-destructive focus:ring-destructive/20' : 'border-border focus:border-primary focus:ring-primary/20'
+                        className={`w-full px-4 py-2.5 rounded-lg bg-zinc-800 border text-sm uppercase text-white placeholder-zinc-500 focus:outline-none focus:ring-2 transition-all ${
+                          cardErrors.cardholderName ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-zinc-600 focus:border-sky-500 focus:ring-sky-500/20'
                         }`}
                       />
                       {cardErrors.cardholderName && (
-                        <p className="text-xs text-destructive mt-1">{cardErrors.cardholderName}</p>
+                        <p className="text-xs text-red-400 mt-1">{cardErrors.cardholderName}</p>
                       )}
                     </div>
 
                     {/* Data de validade e CVV */}
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium mb-2">Validade</label>
+                        <label className="block text-sm font-medium mb-2 text-zinc-300">Validade</label>
                         <input
                           type="text"
                           value={cardData.expiryDate}
@@ -651,16 +792,16 @@ const Checkout = () => {
                           }}
                           placeholder="MM/YY"
                           maxLength={5}
-                          className={`w-full px-4 py-2 rounded-md bg-background border text-lg tracking-wider focus:outline-none ${
-                            cardErrors.expiryDate ? 'border-destructive focus:border-destructive' : 'border-border focus:border-primary'
+                          className={`w-full px-4 py-2 rounded-lg bg-zinc-800 border text-lg tracking-wider text-white placeholder-zinc-500 focus:outline-none focus:ring-2 ${
+                            cardErrors.expiryDate ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-zinc-600 focus:border-sky-500 focus:ring-sky-500/20'
                           }`}
                         />
                         {cardErrors.expiryDate && (
-                          <p className="text-xs text-destructive mt-1">{cardErrors.expiryDate}</p>
+                          <p className="text-xs text-red-400 mt-1">{cardErrors.expiryDate}</p>
                         )}
                       </div>
                       <div>
-                        <label className="block text-sm font-medium mb-2">CVV</label>
+                        <label className="block text-sm font-medium mb-2 text-zinc-300">CVV</label>
                         <input
                           type="text"
                           value={cardData.cvv}
@@ -673,12 +814,12 @@ const Checkout = () => {
                           }}
                           placeholder="000"
                           maxLength={4}
-                          className={`w-full px-4 py-2 rounded-md bg-background border text-lg tracking-wider focus:outline-none ${
-                            cardErrors.cvv ? 'border-destructive focus:border-destructive' : 'border-border focus:border-primary'
+                          className={`w-full px-4 py-2 rounded-lg bg-zinc-800 border text-lg tracking-wider text-white placeholder-zinc-500 focus:outline-none focus:ring-2 ${
+                            cardErrors.cvv ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-zinc-600 focus:border-sky-500 focus:ring-sky-500/20'
                           }`}
                         />
                         {cardErrors.cvv && (
-                          <p className="text-xs text-destructive mt-1">{cardErrors.cvv}</p>
+                          <p className="text-xs text-red-400 mt-1">{cardErrors.cvv}</p>
                         )}
                       </div>
                     </div>
@@ -686,7 +827,7 @@ const Checkout = () => {
                     {/* Parcelamento */}
                     {installments.length > 0 && (
                       <div>
-                        <label className="block text-sm font-medium mb-2">Parcelamento</label>
+                        <label className="block text-sm font-medium mb-2 text-zinc-300">Parcelamento</label>
                         <select
                           value={selectedInstallment?.recommended_message || ''}
                           onChange={(e) => {
@@ -695,7 +836,7 @@ const Checkout = () => {
                             );
                             setSelectedInstallment(selected);
                           }}
-                          className="w-full px-4 py-2.5 rounded-md bg-background border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm transition-all"
+                          className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 border border-zinc-600 text-white focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 text-sm transition-all"
                         >
                           {installments.map((inst, idx) => (
                             <option key={idx} value={inst.recommended_message}>
@@ -710,7 +851,7 @@ const Checkout = () => {
                     <button
                       type="submit"
                       disabled={isProcessing || success}
-                      className="w-full py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
+                      className="w-full py-3 bg-sky-500 hover:bg-sky-600 text-white font-semibold text-base rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-sky-500/20"
                     >
                       {isProcessing && <Loader2 className="h-5 w-5 animate-spin" />}
                       {isProcessing ? 'Processando...' : `Pagar R$ ${total.toFixed(2)}`}
@@ -722,20 +863,20 @@ const Checkout = () => {
                   <div className="space-y-4">
                     {!pixData ? (
                       <>
-                        <p className="text-sm text-muted-foreground mb-4">
+                        <p className="text-sm text-zinc-400 mb-4">
                           Gere um código Pix para completar sua compra. Você terá 30 minutos para pagar.
                         </p>
                         <button
                           onClick={handlePixPayment}
                           disabled={isProcessing}
-                          className="w-full py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
+                          className="w-full py-3 bg-sky-500 hover:bg-sky-600 text-white font-semibold text-base rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-sky-500/20"
                         >
                           {isProcessing && <Loader2 className="h-5 w-5 animate-spin" />}
                           {isProcessing ? 'Gerando...' : '🎯 Gerar Código Pix'}
                         </button>
                       </>
                     ) : (
-                      <div className="space-y-4 p-4 bg-background rounded-lg border border-border">
+                      <div className="space-y-4 p-4 bg-zinc-800/50 rounded-xl border border-zinc-600">
                         {/* QR Code */}
                         {pixData.qr_code_base64 && (
                           <div className="flex flex-col items-center gap-4">
@@ -744,7 +885,7 @@ const Checkout = () => {
                               alt="QR Pix"
                               className="w-64 h-64 border-2 border-primary p-2 rounded-lg"
                             />
-                            <p className="text-center text-sm text-muted-foreground">
+                            <p className="text-center text-sm text-zinc-400">
                               Escaneie o código com o seu banco ou app de Pix
                             </p>
                           </div>
@@ -753,19 +894,19 @@ const Checkout = () => {
                         {/* Copia e Cola */}
                         {pixData.qr_copy_text && (
                           <div className="mt-4">
-                            <label className="block text-sm font-medium mb-2">Ou copie o código:</label>
+                            <label className="block text-sm font-medium mb-2 text-zinc-300">Ou copie o código:</label>
                             <div className="flex gap-2">
                               <input
                                 readOnly
                                 value={pixData.qr_copy_text}
-                                className="flex-1 px-4 py-2 rounded-md bg-background border border-border text-xs font-mono"
+                                className="flex-1 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-600 text-zinc-200 text-xs font-mono"
                               />
                               <button
                                 onClick={() => copyToClipboard(pixData.qr_copy_text)}
-                                className={`px-4 py-2 rounded-md font-medium transition-all flex items-center gap-2 ${
+                                className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
                                   pixCopied
                                     ? 'bg-green-600 text-white'
-                                    : 'bg-primary hover:bg-primary/90 text-primary-foreground'
+                                    : 'bg-sky-500 hover:bg-sky-600 text-white'
                                 }`}
                               >
                                 <Copy className="h-4 w-4" />
@@ -776,8 +917,8 @@ const Checkout = () => {
                         )}
 
                         {/* Timer e status */}
-                        <div className="mt-4 p-3 bg-secondary rounded-lg border border-border">
-                          <p className="text-sm text-muted-foreground">
+                        <div className="mt-4 p-3 bg-zinc-800/80 rounded-lg border border-zinc-600">
+                          <p className="text-sm text-zinc-400">
                             ⏱️ Você tem 30 minutos para realizar o pagamento
                           </p>
                         </div>
@@ -788,7 +929,7 @@ const Checkout = () => {
                             setPixData(null);
                             setPaymentMethod('card');
                           }}
-                          className="w-full py-2 bg-secondary hover:bg-secondary/90 text-foreground rounded-md transition-all text-sm"
+                          className="w-full py-2 bg-zinc-700 hover:bg-zinc-600 text-zinc-200 rounded-lg transition-all text-sm"
                         >
                           Voltar e escolher outro método
                         </button>
@@ -801,7 +942,7 @@ const Checkout = () => {
               {/* Continuar comprando */}
               <button
                 onClick={() => navigate('/#produtos')}
-                className="w-full py-2 bg-secondary hover:bg-secondary/80 text-foreground rounded-md transition-all text-sm"
+                className="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg border border-zinc-600 transition-all text-sm"
               >
                 ← Continuar comprando
               </button>

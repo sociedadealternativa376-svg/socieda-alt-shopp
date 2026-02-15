@@ -3,7 +3,7 @@ import logo from '@/assets/logo.png';
 
 const Footer = () => {
   return (
-    <footer id="contato" className="relative bg-card border-t border-border overflow-hidden">
+    <footer id="contato" className="relative bg-zinc-950 border-t border-zinc-800 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
@@ -23,7 +23,7 @@ const Footer = () => {
                 SOCIEDADE ALTERNATIVA
               </span>
             </div>
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-zinc-400 leading-relaxed">
               Expressão através da arte corporal desde 2015. Qualidade e segurança em cada trabalho.
             </p>
             
@@ -44,18 +44,18 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="font-display text-xl text-foreground mb-6 flex items-center gap-2">
+            <h4 className="font-display text-xl text-white mb-6 flex items-center gap-2">
               <span className="w-8 h-0.5 bg-gradient-to-r from-primary to-warm-red rounded-full" />
               CONTATO
             </h4>
             <ul className="space-y-4">
               <li>
-                <div className="flex items-start gap-3 text-muted-foreground group">
+                <div className="flex items-start gap-3 text-zinc-400 group">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
                     <MapPin className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-foreground font-medium">Mauá Plaza Shopping</p>
+                    <p className="text-white font-medium">Mauá Plaza Shopping</p>
                     <p className="text-sm">Mauá, São Paulo</p>
                   </div>
                 </div>
@@ -65,13 +65,13 @@ const Footer = () => {
                   href="https://wa.me/5511952222008?text=Olá! Vim pelo site e gostaria de mais informações."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-3 text-muted-foreground hover:text-primary transition-colors group"
+                  className="flex items-start gap-3 text-zinc-400 hover:text-primary transition-colors group"
                 >
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
                     <Phone className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-foreground font-medium group-hover:text-primary transition-colors">(11) 95222-2008</p>
+                    <p className="text-white font-medium group-hover:text-primary transition-colors">(11) 95222-2008</p>
                     <p className="text-sm">WhatsApp disponível</p>
                   </div>
                 </a>
@@ -81,7 +81,7 @@ const Footer = () => {
 
           {/* Hours */}
           <div>
-            <h4 className="font-display text-xl text-foreground mb-6 flex items-center gap-2">
+            <h4 className="font-display text-xl text-white mb-6 flex items-center gap-2">
               <span className="w-8 h-0.5 bg-gradient-to-r from-primary to-warm-red rounded-full" />
               HORÁRIO
             </h4>
@@ -91,8 +91,8 @@ const Footer = () => {
                   <Clock className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Segunda a Sexta</p>
-                  <p className="text-foreground font-medium">10h - 20h</p>
+                  <p className="text-zinc-400">Segunda a Sexta</p>
+                  <p className="text-white font-medium">10h - 20h</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -100,8 +100,8 @@ const Footer = () => {
                   <Clock className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Sábado</p>
-                  <p className="text-foreground font-medium">10h - 18h</p>
+                  <p className="text-zinc-400">Sábado</p>
+                  <p className="text-white font-medium">10h - 18h</p>
                 </div>
               </li>
             </ul>
@@ -109,18 +109,18 @@ const Footer = () => {
 
           {/* Newsletter / CTA */}
           <div>
-            <h4 className="font-display text-xl text-foreground mb-6 flex items-center gap-2">
+            <h4 className="font-display text-xl text-white mb-6 flex items-center gap-2">
               <span className="w-8 h-0.5 bg-gradient-to-r from-primary to-warm-red rounded-full" />
               NOVIDADES
             </h4>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-zinc-400 mb-4">
               Siga-nos para novidades, promoções exclusivas e inspirações
             </p>
             <a 
               href="https://wa.me/5511952222008?text=Olá! Quero receber novidades da loja!"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-gradient btn-ripple inline-flex items-center gap-2 px-6 py-3 rounded-full text-primary-foreground font-medium text-sm"
+              className="btn-ripple inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium text-sm bg-gradient-to-r from-amber-500 to-orange-500 text-black hover:opacity-90 shadow-md"
             >
               Receber Novidades
               <ArrowUpRight className="h-4 w-4" />
@@ -129,12 +129,12 @@ const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-border mt-12 pt-8">
+        <div className="border-t border-zinc-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-muted-foreground text-sm flex items-center gap-1">
+            <p className="text-zinc-400 text-sm flex items-center gap-1">
               © 2024 Sociedade Alternativa. Feito com <Heart className="h-3 w-3 text-warm-red fill-warm-red" /> no Brasil
             </p>
-            <p className="text-muted-foreground/60 text-xs">
+            <p className="text-zinc-500 text-xs">
               Todos os direitos reservados
             </p>
           </div>

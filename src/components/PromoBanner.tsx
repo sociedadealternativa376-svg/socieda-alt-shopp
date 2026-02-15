@@ -2,7 +2,7 @@ import promoBanner from '@/assets/promo-banner.png';
 
 const PromoBanner = () => {
   return (
-    <section className="w-full py-4 md:py-10 bg-background relative overflow-hidden">
+    <section className="w-full py-4 md:py-10 bg-black relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[200%] bg-gradient-to-r from-warm-yellow/10 via-primary/10 to-warm-red/10 blur-3xl" />

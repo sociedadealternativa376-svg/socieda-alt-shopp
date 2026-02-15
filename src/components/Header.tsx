@@ -47,7 +47,7 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/30">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-zinc-800">
       <div className="container mx-auto px-3 md:px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
@@ -64,7 +64,7 @@ const Header = () => {
               <h1 className="text-lg md:text-xl font-display tracking-wider gradient-text">
                 SOCIEDADE ALTERNATIVA
               </h1>
-              <p className="text-[10px] md:text-xs text-muted-foreground tracking-widest">
+              <p className="text-[10px] md:text-xs text-zinc-400 tracking-widest">
                 PIERCINGS • TATTOOS • JOIAS
               </p>
             </div>
@@ -74,23 +74,23 @@ const Header = () => {
           <nav className="hidden md:flex items-center gap-1">
             <Link 
               to="/" 
-              className={`link-underline px-4 py-2 rounded-lg transition-all font-medium ${isActive('/') && location.pathname === '/' ? 'text-primary bg-primary/5' : 'text-foreground/70 hover:text-primary hover:bg-primary/5'}`}
+              className={`link-underline px-4 py-2 rounded-lg transition-all font-medium ${isActive('/') && location.pathname === '/' ? 'text-primary bg-primary/10' : 'text-zinc-300 hover:text-primary hover:bg-primary/10'}`}
             >
               Início
             </Link>
-            <a href="/#produtos" className="link-underline px-4 py-2 rounded-lg text-foreground/70 hover:text-primary hover:bg-primary/5 transition-all font-medium">
+            <a href="/#produtos" className="link-underline px-4 py-2 rounded-lg text-zinc-300 hover:text-primary hover:bg-primary/10 transition-all font-medium">
               Produtos
             </a>
             <Link 
               to="/portfolio" 
-              className={`link-underline px-4 py-2 rounded-lg transition-all font-medium ${isActive('/portfolio') ? 'text-primary bg-primary/5' : 'text-foreground/70 hover:text-primary hover:bg-primary/5'}`}
+              className={`link-underline px-4 py-2 rounded-lg transition-all font-medium ${isActive('/portfolio') ? 'text-primary bg-primary/10' : 'text-zinc-300 hover:text-primary hover:bg-primary/10'}`}
             >
               Portfólio
             </Link>
-            <a href="/#sobre" className="link-underline px-4 py-2 rounded-lg text-foreground/70 hover:text-primary hover:bg-primary/5 transition-all font-medium">
+            <a href="/#sobre" className="link-underline px-4 py-2 rounded-lg text-zinc-300 hover:text-primary hover:bg-primary/10 transition-all font-medium">
               Sobre
             </a>
-            <a href="/#contato" className="link-underline px-4 py-2 rounded-lg text-foreground/70 hover:text-primary hover:bg-primary/5 transition-all font-medium">
+            <a href="/#contato" className="link-underline px-4 py-2 rounded-lg text-zinc-300 hover:text-primary hover:bg-primary/10 transition-all font-medium">
               Contato
             </a>
           </nav>
@@ -102,7 +102,7 @@ const Header = () => {
             {/* Cart Button */}
             <Sheet open={cartOpen} onOpenChange={setCartOpen}>
               <SheetTrigger asChild>
-                <button className="relative p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors">
+                <button className="relative p-2 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors text-zinc-200">
                   <ShoppingBag className="h-5 w-5" />
                   {itemCount > 0 && (
                     <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center animate-pulse">
@@ -121,7 +121,7 @@ const Header = () => {
 
             {/* User Menu */}
             {loading ? (
-              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+              <Loader2 className="h-5 w-5 animate-spin text-zinc-400" />
             ) : user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -143,11 +143,11 @@ const Header = () => {
               </DropdownMenu>
             ) : (
               <Link to="/auth">
-                <Button variant="outline" size="sm" className="hidden sm:flex">
+                <Button variant="outline" size="sm" className="hidden sm:flex border-zinc-500 text-zinc-200 hover:bg-zinc-800 hover:text-white">
                   <User className="h-4 w-4 mr-2" />
                   Entrar
                 </Button>
-                <button className="sm:hidden p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors">
+                <button className="sm:hidden p-2 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors text-zinc-200">
                   <User className="h-5 w-5" />
                 </button>
               </Link>
@@ -158,18 +158,18 @@ const Header = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button variant="default" size="sm" className="hidden sm:flex">
+              <Button size="sm" className="hidden sm:flex bg-[#25D366] hover:bg-[#20BD5A] text-white border-0">
                 <MessageCircle className="h-4 w-4 mr-2" />
                 WhatsApp
               </Button>
-              <button className="sm:hidden p-3 rounded-full bg-primary hover:bg-primary/90 transition-colors">
-                <MessageCircle className="h-5 w-5 text-primary-foreground" />
+              <button className="sm:hidden p-3 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors text-white">
+                <MessageCircle className="h-5 w-5" />
               </button>
             </a>
 
             {/* Mobile Menu Toggle */}
             <button 
-              className="md:hidden p-3 rounded-full bg-secondary active:scale-95 transition-transform"
+              className="md:hidden p-3 rounded-full bg-zinc-800 hover:bg-zinc-700 active:scale-95 transition-all text-zinc-200"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
               aria-label="Abrir menu"
@@ -181,12 +181,12 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-border animate-fade-in">
+          <nav className="md:hidden py-4 border-t border-zinc-800 animate-fade-in">
             <div className="flex flex-col gap-1">
               <Link 
                 to="/" 
                 onClick={handleNavClick}
-                className={`py-3 px-4 rounded-lg transition-colors font-medium ${isActive('/') && location.pathname === '/' ? 'bg-primary/10 text-primary' : 'text-foreground/80 hover:bg-secondary'}`}
+                className={`py-3 px-4 rounded-lg transition-colors font-medium ${isActive('/') && location.pathname === '/' ? 'bg-primary/20 text-primary' : 'text-zinc-300 hover:bg-zinc-800'}`}
               >
                 Início
               </Link>
@@ -200,21 +200,21 @@ const Header = () => {
               <Link 
                 to="/portfolio" 
                 onClick={handleNavClick}
-                className={`py-3 px-4 rounded-lg transition-colors font-medium ${isActive('/portfolio') ? 'bg-primary/10 text-primary' : 'text-foreground/80 hover:bg-secondary'}`}
+                className={`py-3 px-4 rounded-lg transition-colors font-medium ${isActive('/portfolio') ? 'bg-primary/20 text-primary' : 'text-zinc-300 hover:bg-zinc-800'}`}
               >
                 Portfólio
               </Link>
               <a 
                 href="/#sobre" 
                 onClick={handleNavClick}
-                className="py-3 px-4 rounded-lg text-foreground/80 hover:bg-secondary transition-colors font-medium"
+                className="py-3 px-4 rounded-lg text-zinc-300 hover:bg-zinc-800 transition-colors font-medium"
               >
                 Sobre
               </a>
               <a 
                 href="/#contato" 
                 onClick={handleNavClick}
-                className="py-3 px-4 rounded-lg text-foreground/80 hover:bg-secondary transition-colors font-medium"
+                className="py-3 px-4 rounded-lg text-zinc-300 hover:bg-zinc-800 transition-colors font-medium"
               >
                 Contato
               </a>

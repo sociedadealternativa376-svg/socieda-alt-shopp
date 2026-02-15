@@ -32,7 +32,7 @@ const CategoryCarousels = () => {
   }, []);
 
   return (
-    <section id="produtos" className="py-8 md:py-16 bg-background">
+    <section id="produtos" className="py-8 md:py-16 bg-black">
       <div className="w-full">
         <div className="container mx-auto px-4 mb-12">
           <h2 className="text-3xl md:text-5xl font-display gradient-text text-center">
@@ -45,10 +45,10 @@ const CategoryCarousels = () => {
             <div key={subcategory} className="w-full">
               <div className="container mx-auto px-4 mb-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl md:text-2xl font-display text-foreground capitalize">
+                  <h3 className="text-xl md:text-2xl font-display text-white capitalize">
                     {label}
                   </h3>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-zinc-400">
                     {items.length} {items.length === 1 ? 'produto' : 'produtos'}
                   </span>
                 </div>
@@ -84,7 +84,7 @@ const CategoryCarousels = () => {
                 </Carousel>
               </div>
 
-              <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mt-4">
+              <div className="flex items-center justify-center gap-2 text-xs text-zinc-500 mt-4">
                 <ChevronLeft className="h-3 w-3" />
                 <span>Arraste para explorar</span>
                 <ChevronRight className="h-3 w-3" />
