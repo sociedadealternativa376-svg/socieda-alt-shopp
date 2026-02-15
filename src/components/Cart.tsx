@@ -29,25 +29,13 @@ const Cart = () => {
       });
       navigate('/auth', { 
         state: { 
-          from: '/checkout/pix',
-          orderData: {
-            items,
-            total,
-            orderId: Date.now().toString().slice(-6),
-          }
+          from: '/checkout',
         } 
       });
       return;
     }
 
-    const orderId = Date.now().toString().slice(-6);
-    navigate('/checkout/pix', {
-      state: {
-        items,
-        total,
-        orderId,
-      }
-    });
+    navigate('/checkout');
   };
 
   if (items.length === 0) {

@@ -54,12 +54,7 @@ const Auth = () => {
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      // If there's pending order data, redirect to checkout
-      if (orderData && redirectTo === '/checkout/pix') {
-        navigate('/checkout/pix', { state: orderData });
-      } else {
-        navigate(redirectTo);
-      }
+      navigate(redirectTo);
     }
   }, [user, navigate, redirectTo, orderData]);
 

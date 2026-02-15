@@ -406,9 +406,13 @@ const Checkout = () => {
 
       if (result.success) {
         setSuccess(true);
+        const orderItems = [...items];
+        const orderTotal = total;
         clearCart();
         setTimeout(() => {
-          navigate(`/pedido-confirmado/${result.orderId || 'success'}`);
+          navigate('/checkout/sucesso', {
+            state: { orderId: result.orderId || 'success', total: orderTotal, items: orderItems },
+          });
         }, 2000);
       } else {
         setError(result.message || 'Erro ao processar pagamento');

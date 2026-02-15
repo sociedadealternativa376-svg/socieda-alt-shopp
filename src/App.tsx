@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 
@@ -16,7 +16,6 @@ const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const Auth = lazy(() => import("./pages/Auth"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Checkout = lazy(() => import("./pages/Checkout"));
-const PixCheckout = lazy(() => import("./pages/PixCheckout"));
 const CheckoutSuccess = lazy(() => import("./pages/CheckoutSuccess"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -42,7 +41,7 @@ const App = () => (
                 <Route path="/produto/:id" element={<ProductDetail />} />
                 <Route path="/portfolio" element={<Portfolio />} />
                 <Route path="/checkout" element={<Checkout />} />
-                <Route path="/checkout/pix" element={<PixCheckout />} />
+                <Route path="/checkout/pix" element={<Navigate to="/checkout" replace />} />
                 <Route path="/checkout/sucesso" element={<CheckoutSuccess />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
