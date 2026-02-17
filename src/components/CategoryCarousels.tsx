@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { products } from '@/data/products';
+import { useMemo, useState } from 'react';
+import { products, subcategoryLabels, categories } from '@/data/products';
 import ProductCard from './ProductCard';
 import {
   Carousel,
@@ -8,27 +8,47 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 const CategoryCarousels = () => {
-  const subcategories = useMemo(() => {
-    const grouped: { [key: string]: { label: string; products: typeof products } } = {};
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>('');
 
-    products.forEach((product) => {
+  const subcategories = useMemo(() => {
+    const filtered = products.filter((product) => {
+      const matchesSearch =
+        !searchTerm.trim() ||
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.id.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSubcategory =
+        !selectedSubcategory || (product.subcategory || product.category) === selectedSubcategory;
+      return matchesSearch && matchesSubcategory;
+    });
+
+    const grouped: { [key: string]: { label: string; products: typeof products } } = {};
+    filtered.forEach((product) => {
       const subcategory = product.subcategory || product.category;
       if (!grouped[subcategory]) {
         grouped[subcategory] = {
-          label: subcategory,
+          label: subcategoryLabels[subcategory] || subcategory.charAt(0).toUpperCase() + subcategory.slice(1),
           products: [],
         };
       }
       grouped[subcategory].products.push(product);
     });
 
-    // Ordenar por quantidade de produtos (descendente)
     return Object.entries(grouped)
       .sort(([, a], [, b]) => b.products.length - a.products.length)
-      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+      .reduce<Record<string, { label: string; products: typeof products }>>(
+        (acc, [key, value]) => ({ ...acc, [key]: value }),
+        {}
+      );
+  }, [searchTerm, selectedSubcategory]);
+
+  const allSubcategories = useMemo(() => {
+    return categories.flatMap((c) => c.subcategories);
   }, []);
 
   return (
@@ -38,9 +58,38 @@ const CategoryCarousels = () => {
           <h2 className="text-3xl md:text-5xl font-display gradient-text text-center">
             EXPLORE NOSSOS PRODUTOS
           </h2>
+
+          {/* Busca e filtro */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+              <Input
+                type="text"
+                placeholder="Buscar por nome, descrição..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500"
+              />
+            </div>
+            <select
+              value={selectedSubcategory}
+              onChange={(e) => setSelectedSubcategory(e.target.value)}
+              className="px-4 py-2 rounded-md bg-zinc-900 border border-zinc-700 text-white text-sm"
+            >
+              <option value="">Todas as categorias</option>
+              {allSubcategories.map((sub) => (
+                <option key={sub} value={sub}>
+                  {subcategoryLabels[sub] || sub}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="space-y-16">
+          {Object.keys(subcategories).length === 0 ? (
+            <p className="text-center text-zinc-400 py-12">Nenhum produto encontrado. Tente outros termos ou categorias.</p>
+          ) : null}
           {Object.entries(subcategories).map(([subcategory, { label, products: items }]) => (
             <div key={subcategory} className="w-full">
               <div className="container mx-auto px-4 mb-4">

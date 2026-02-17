@@ -29,11 +29,7 @@ const ProductCardCompact = ({ product }: ProductCardCompactProps) => {
       className="group premium-card cursor-pointer h-full flex flex-col"
       onClick={handleViewProduct}
     >
-      {/* Image Container */}
       <div className="relative bg-white p-3 rounded-t-xl overflow-hidden">
-        {/* Shine effect on hover */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
-        
         <div className="aspect-square w-full flex items-center justify-center">
           <img 
             src={product.image} 
@@ -41,8 +37,6 @@ const ProductCardCompact = ({ product }: ProductCardCompactProps) => {
             className="max-w-full max-h-full object-contain transition-all duration-500 group-hover:scale-110"
           />
         </div>
-        
-        {/* Quick Add Button with ripple */}
         <button 
           onClick={handleAddToCart}
           className={`btn-ripple absolute bottom-3 right-3 w-9 h-9 rounded-full bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg ${isAdding ? 'scale-125' : ''}`}
@@ -50,7 +44,6 @@ const ProductCardCompact = ({ product }: ProductCardCompactProps) => {
           <Plus className={`h-4 w-4 transition-transform ${isAdding ? 'rotate-90' : ''}`} />
         </button>
       </div>
-      
       {/* Content */}
       <div className="p-3 flex flex-col flex-1 bg-card rounded-b-xl">
         <span className="text-[10px] text-primary/80 uppercase tracking-wider font-medium">

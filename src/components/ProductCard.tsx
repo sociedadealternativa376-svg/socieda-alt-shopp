@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '@/types/product';
-import { ShoppingBag, Eye } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
 interface ProductCardProps {
@@ -27,41 +27,25 @@ const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
       className="group relative bg-card rounded-xl overflow-hidden gradient-border cursor-pointer transition-all duration-300 hover:shadow-[0_8px_30px_hsl(var(--primary)/0.2)] hover:-translate-y-1 h-full flex flex-col"
       onClick={handleViewProduct}
     >
-      <div className="aspect-[4/5] md:aspect-square overflow-hidden relative flex-shrink-0 bg-secondary">
+      <div className="w-full h-[220px] md:h-[240px] overflow-hidden relative flex-shrink-0 bg-zinc-900">
         <img
           src={product.image}
           alt={product.name}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-contain p-3 md:p-0 transition-transform duration-500 group-hover:scale-105"
+          className="product-card-image w-full h-full object-cover object-center transition-transform duration-300 ease-out group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
-        
-        {/* Quick View Button - Hidden on mobile */}
-        <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
-          <button 
-            className="flex items-center gap-2 px-4 py-2 rounded-md bg-white/95 text-black font-medium text-sm transition-transform hover:scale-105 shadow-lg"
-            onClick={handleViewProduct}
-          >
-            <Eye className="h-4 w-4" />
-            Ver Detalhes
-          </button>
-        </div>
       </div>
-      
       <div className="p-2.5 md:p-4 flex flex-col flex-1">
-        <span className="text-[9px] md:text-xs text-primary font-medium uppercase tracking-wider line-clamp-1 transition-colors group-hover:text-primary/80">
+        <span className="text-[9px] md:text-xs text-primary/90 font-medium uppercase tracking-widest line-clamp-1">
           {product.subcategory || product.category}
         </span>
-        <h3 className="font-display text-xs md:text-base lg:text-lg text-foreground mt-0.5 md:mt-1 mb-1 line-clamp-2 transition-colors group-hover:gradient-text leading-tight">
+        <h3 className="font-display text-sm md:text-base text-zinc-100 mt-1 mb-1.5 line-clamp-2 leading-snug tracking-tight">
           {product.name}
         </h3>
-        <p className="hidden lg:block text-sm text-muted-foreground line-clamp-2 mb-2">
-          {product.description}
-        </p>
         
         <div className="flex flex-col gap-1.5 md:gap-2 mt-auto">
-          <span className="text-sm md:text-lg lg:text-xl font-bold gradient-text">
+          <span className="text-sm md:text-base font-semibold text-amber-400/95 tabular-nums">
             R$ {product.price.toFixed(2)}
           </span>
           <button 

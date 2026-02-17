@@ -391,6 +391,26 @@
     width: 100%;
   }
 
+  /* Product detail page - professional crop + quality */
+  .product-detail-image {
+    object-fit: cover;
+    object-position: center;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    filter: contrast(1.02) saturate(1.03);
+  }
+
+  /* Product card images - sharper rendering */
+  .product-card-image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+
   /* Category pill with glow */
   .pill-glow {
     @apply relative;

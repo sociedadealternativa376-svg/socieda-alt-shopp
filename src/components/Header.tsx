@@ -147,9 +147,9 @@ const Header = () => {
                   <User className="h-4 w-4 mr-2" />
                   Entrar
                 </Button>
-                <button className="sm:hidden p-2 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors text-zinc-200">
+                <Link to="/auth" className="sm:hidden p-2 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors text-zinc-200">
                   <User className="h-5 w-5" />
-                </button>
+                </Link>
               </Link>
             )}
             

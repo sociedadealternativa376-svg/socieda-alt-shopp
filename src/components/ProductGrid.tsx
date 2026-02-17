@@ -26,8 +26,7 @@ const ProductGrid = () => {
     let filtered = products.filter((product) => {
       const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
       const matchesSubcategory = selectedSubcategory ? product.subcategory === selectedSubcategory : true;
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           product.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
       return matchesCategory && matchesSubcategory && matchesSearch;
     });
 

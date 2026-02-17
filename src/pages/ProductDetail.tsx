@@ -5,22 +5,14 @@ import { useCart } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Breadcrumbs from '@/components/Breadcrumbs';
-import { useState, useEffect } from 'react';
-
-const getProductGalleryImages = (product: (typeof products)[number]) => {
-  const gallery = (product as any).gallery as string[] | undefined;
-  return gallery && gallery.length > 0 ? gallery : [product.image];
-};
+import { useEffect } from 'react';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const [selectedImage, setSelectedImage] = useState(0);
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    setSelectedImage(0);
   }, [id]);
 
   const product = products.find(p => p.id === id);
@@ -40,8 +32,6 @@ const ProductDetail = () => {
       </div>
     );
   }
-
-  const productImages = getProductGalleryImages(product);
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -77,40 +67,17 @@ const ProductDetail = () => {
           <Breadcrumbs items={breadcrumbItems} />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Image Gallery */}
-            <div className="space-y-4">
-                <div className="rounded-lg overflow-hidden bg-card gradient-border max-h-96">
-                  <img
-                    src={productImages[selectedImage]}
-                    alt={product.name}
-                    loading="eager"
-                    decoding="async"
-                    className="w-full max-h-96 object-contain"
-                  />
-                </div>
-              <div className="grid grid-cols-5 gap-2">
-                {productImages.map((img, index) => (
-                  <button
-                    key={index}
-                      onClick={() => setSelectedImage(index)}
-                      className={`h-14 md:h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                      selectedImage === index 
-                        ? 'border-primary' 
-                        : 'border-border hover:border-primary/50'
-                    }`}
-                  >
-                    <img
-                      src={img}
-                      alt={`${product.name} - ${index + 1}`}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
+            {/* Image */}
+            <div className="product-detail-image-container aspect-square w-full rounded-xl bg-neutral-900/95 border border-white/5 shadow-xl overflow-hidden transition-transform duration-300 hover:scale-[1.02]">
+              <img
+                src={product.image}
+                alt={product.name}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                className="product-detail-image w-full h-full object-cover object-center"
+              />
             </div>
-
             {/* Product Info */}
             <div className="space-y-6">
               <div>
@@ -124,10 +91,6 @@ const ProductDetail = () => {
 
               <p className="text-3xl font-bold gradient-text">
                 R$ {product.price.toFixed(2)}
-              </p>
-
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                {product.description}
               </p>
 
               {/* Features */}

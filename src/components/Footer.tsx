@@ -132,7 +132,7 @@ const Footer = () => {
         <div className="border-t border-zinc-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-zinc-400 text-sm flex items-center gap-1">
-              © 2024 Sociedade Alternativa. Feito com <Heart className="h-3 w-3 text-warm-red fill-warm-red" /> no Brasil
+              © {new Date().getFullYear()} Sociedade Alternativa. Feito com <Heart className="h-3 w-3 text-warm-red fill-warm-red" /> no Brasil
             </p>
             <p className="text-zinc-500 text-xs">
               Todos os direitos reservados
